@@ -1,0 +1,147 @@
+﻿# 조건 그래프
+
+복잡한 게임 조건을 **AND / OR / NOT 노드 트리**로 데이터화합니다. `if` 지옥을 없애고 기획자가 인스펙터에서 직접 조건을 구성할 수 있습니다.
+
+## 구조
+
+```
+ConditionGraph (ScriptableObject)
+  └── Root: ConditionNode  [SerializeReference]
+              ├── AndConditionNode
+              │     ├── CompareConditionNode  Level >= 10
+              │     ├── CompareConditionNode  VIP >= 3
+              │     └── CompareConditionNode  Tutorial == 1
+              └── OrConditionNode
+                    ├── CompareConditionNode  HasItem == 1
+                    └── ...
+```
+
+## 빠른 시작
+
+### 1. ConditionGraph 에셋 만들기
+
+**Create → SS/Condition/Condition Graph**
+
+인스펙터에서 `Root`에 `[+]` 버튼으로 노드를 추가합니다.
+
+### 2. 조건 평가
+
+```csharp
+using AchieveOnePark.AchUtils.Condition;
+
+// 컨텍스트에 현재 게임 상태 주입
+var ctx = new ConditionContext();
+ctx.Set("Level", player.Level);
+ctx.Set("VIP", player.VipGrade);
+ctx.Set("Tutorial", tutorialDone ? 1f : 0f);
+
+// 그래프 평가
+bool canOpen = shopConditionGraph.Evaluate(ctx);
+shopPanel.SetActive(canOpen);
+```
+
+## 노드 종류
+
+### CompareConditionNode
+
+숫자 값을 비교합니다.
+
+| 필드 | 타입 | 설명 |
+|------|------|------|
+| `Key` | string | 컨텍스트 키 |
+| `Op` | CompareOp | 비교 연산자 |
+| `Value` | float | 비교 대상 값 |
+
+```csharp
+public enum CompareOp
+{
+    Equal, NotEqual,
+    Greater, GreaterOrEqual,
+    Less, LessOrEqual
+}
+```
+
+### AndConditionNode
+
+자식 노드 **모두** true일 때 true.
+
+```
+AND
+├ Level >= 10   ✓
+├ VIP >= 3      ✓
+└ Tutorial == 1 ✓
+→ true
+```
+
+### OrConditionNode
+
+자식 노드 **하나라도** true이면 true.
+
+```
+OR
+├ HasFreeItem == 1   ✓
+└ HasDiscount == 1   ✗
+→ true
+```
+
+### NotConditionNode
+
+자식 노드의 결과를 반전합니다.
+
+```
+NOT
+└ IsBanned == 1   ✗
+→ true
+```
+
+## ConditionContext API
+
+```csharp
+var ctx = new ConditionContext();
+
+ctx.Set("Level", 15f);
+ctx.Get("Level");       // 15f
+ctx.Has("Level");       // true
+ctx.Remove("Level");
+ctx.Clear();
+```
+
+::: tip 컨텍스트 재사용
+`ConditionContext`는 매 프레임 생성하지 말고 필드로 보유한 뒤 `Set`으로 값만 갱신하세요.
+:::
+
+## 활용 사례
+
+```csharp
+// 상점 노출 조건
+shopGraph.Evaluate(ctx)
+
+// 이벤트 오픈
+eventGraph.Evaluate(ctx)
+
+// 업적 달성 조건
+achievementGraph.Evaluate(ctx)
+
+// 광고 등장 조건
+adGraph.Evaluate(ctx)
+```
+
+## 커스텀 노드 추가
+
+```csharp
+[Serializable]
+public class DateRangeConditionNode : ConditionNode
+{
+    public string StartDate;  // "2024-12-25"
+    public string EndDate;
+
+    public override bool Evaluate(ConditionContext context)
+    {
+        var now = DateTime.Now;
+        return now >= DateTime.Parse(StartDate)
+            && now <= DateTime.Parse(EndDate);
+    }
+}
+```
+
+`[SerializeReference]`와 `[Serializable]` 어트리뷰트만 붙이면 인스펙터에서 바로 사용 가능합니다.

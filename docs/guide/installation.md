@@ -1,0 +1,49 @@
+﻿# 설치
+
+## Package Manager로 설치 (로컬)
+
+Unity 프로젝트의 `Packages/manifest.json`을 열고 아래를 추가합니다.
+
+```json
+{
+  "dependencies": {
+    "com.achieveonepark.achutils": "file:../Packages/ss"
+  }
+}
+```
+
+또는 **Package Manager → Add package from disk** 를 선택하고 `Packages/ss/package.json`을 엽니다.
+
+## Git URL로 설치
+
+```json
+{
+  "dependencies": {
+    "com.achieveonepark.achutils": "https://github.com/achieveonepark/ss.git"
+  }
+}
+```
+
+## 확인
+
+설치 후 `Assembly Browser`에서 `AchieveOnePark.AchUtils.Runtime`이 보이면 완료입니다.
+
+```csharp
+using AchieveOnePark.AchUtils.Tutorial;
+using AchieveOnePark.AchUtils.Buff;
+using AchieveOnePark.AchUtils.RedDot;
+// ... 필요한 시스템만 using
+```
+
+## 지원 환경
+
+| 항목 | 요구 사항 |
+|------|-----------|
+| Unity | 2021.3 LTS 이상 |
+| .NET | Standard 2.1 |
+| 플랫폼 | iOS, Android, PC, WebGL, Console |
+| 외부 패키지 | 없음 |
+
+::: tip TextMeshPro
+`DialogueStep`은 기본 `UnityEngine.UI.Text`를 사용합니다. TMP를 사용하려면 `DialogueStep.cs`에서 `Text` 컴포넌트를 `TextMeshProUGUI`로 교체하세요.
+:::

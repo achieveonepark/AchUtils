@@ -1,0 +1,11 @@
+{
+  "name": "com.achieveonepark.achutils",
+  "version": "1.0.0",
+  "displayName": "AchUtils",
+  "description": "AchUtils — Unity 게임 개발을 위한 재사용 가능한 13가지 시스템.",
+  "unity": "2021.3",
+  "author": {
+    "name": "AchieveOnePark"
+  },
+  "dependencies": {}
+}
