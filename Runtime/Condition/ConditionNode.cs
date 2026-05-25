@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Condition
+namespace AchUtils.Condition
 {
     [Serializable]
     public abstract class ConditionNode

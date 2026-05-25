@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Tutorial
+namespace AchUtils.Tutorial
 {
     [CreateAssetMenu(menuName = "AchUtils/Tutorial/Tutorial Sequence", fileName = "NewTutorialSequence")]
     public class TutorialSequence : ScriptableObject

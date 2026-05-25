@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Camera
+namespace AchUtils.Camera
 {
     [Serializable]
     public class WaitCameraAction : CameraAction

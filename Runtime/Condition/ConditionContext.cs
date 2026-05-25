@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AchieveOnePark.AchUtils.Condition
+namespace AchUtils.Condition
 {
     public class ConditionContext
     {

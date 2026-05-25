@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Formula
+namespace AchUtils.Formula
 {
     public class FormulaEvaluator
     {

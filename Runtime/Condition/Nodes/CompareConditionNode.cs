@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AchieveOnePark.AchUtils.Condition
+namespace AchUtils.Condition
 {
     public enum CompareOp { Equal, NotEqual, Greater, GreaterOrEqual, Less, LessOrEqual }
 

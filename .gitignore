@@ -1,4 +1,6 @@
 node_modules/
-docs/.vitepress/cache/
-docs/.vitepress/dist/
+Documentation~/.vitepress/cache/
+Documentation~/.vitepress/dist/
+Documentation~/**/*.meta
+Documentation~.meta
 dist/

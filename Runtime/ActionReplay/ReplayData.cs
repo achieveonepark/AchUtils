@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AchieveOnePark.AchUtils.ActionReplay
+namespace AchUtils.ActionReplay
 {
     [Serializable]
     public class ReplayData

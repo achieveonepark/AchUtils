@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Buff
+namespace AchUtils.Buff
 {
     public class BuffSystem
     {

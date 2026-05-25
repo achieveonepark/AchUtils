@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Sequence
+namespace AchUtils.Sequence
 {
     [CreateAssetMenu(menuName = "AchUtils/Sequence/Sequence Asset", fileName = "NewSequence")]
     public class SequenceAsset : ScriptableObject

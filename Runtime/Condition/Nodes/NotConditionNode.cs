@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AchieveOnePark.AchUtils.Condition
+namespace AchUtils.Condition
 {
     [Serializable]
     public class NotConditionNode : ConditionNode

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Formula
+namespace AchUtils.Formula
 {
     [CreateAssetMenu(menuName = "AchUtils/Formula/Formula Asset", fileName = "NewFormula")]
     public class FormulaAsset : ScriptableObject

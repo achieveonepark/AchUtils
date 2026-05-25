@@ -1,18 +1,18 @@
-using AchieveOnePark.AchUtils.ActionReplay;
-using AchieveOnePark.AchUtils.Buff;
-using AchieveOnePark.AchUtils.Camera;
-using AchieveOnePark.AchUtils.Curve;
-using AchieveOnePark.AchUtils.Formula;
-using AchieveOnePark.AchUtils.Quest;
-using AchieveOnePark.AchUtils.Sequence;
-using AchieveOnePark.AchUtils.Spawn;
-using AchieveOnePark.AchUtils.StatModifier;
-using AchieveOnePark.AchUtils.TimeRewind;
-using AchieveOnePark.AchUtils.Tutorial;
+using AchUtils.ActionReplay;
+using AchUtils.Buff;
+using AchUtils.Camera;
+using AchUtils.Curve;
+using AchUtils.Formula;
+using AchUtils.Quest;
+using AchUtils.Sequence;
+using AchUtils.Spawn;
+using AchUtils.StatModifier;
+using AchUtils.TimeRewind;
+using AchUtils.Tutorial;
 using UnityEngine;
-using StatModifierModel = AchieveOnePark.AchUtils.StatModifier.StatModifier;
+using StatModifierModel = AchUtils.StatModifier.StatModifier;
 
-namespace AchieveOnePark.AchUtils.Samples
+namespace AchUtils.Samples
 {
     public sealed class AchUtilsSampleController : MonoBehaviour, IDamageable, IStunnable
     {

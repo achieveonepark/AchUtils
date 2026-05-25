@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Quest
+namespace AchUtils.Quest
 {
     [CreateAssetMenu(menuName = "AchUtils/Quest/Quest Definition", fileName = "NewQuest")]
     public class QuestDefinition : ScriptableObject

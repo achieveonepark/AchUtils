@@ -1,6 +1,6 @@
 {
-    "name": "AchieveOnePark.AchUtils.Runtime",
-    "rootNamespace": "AchieveOnePark.AchUtils",
+    "name": "AchUtils.Runtime",
+    "rootNamespace": "AchUtils",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

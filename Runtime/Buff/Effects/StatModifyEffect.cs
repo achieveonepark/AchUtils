@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using AchieveOnePark.AchUtils.StatModifier;
+using AchUtils.StatModifier;
 
-namespace AchieveOnePark.AchUtils.Buff
+namespace AchUtils.Buff
 {
     [Serializable]
     public class StatModifyEffect : BuffEffect

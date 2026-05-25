@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Spawn
+namespace AchUtils.Spawn
 {
     [CreateAssetMenu(menuName = "AchUtils/Spawn/Spawn Group", fileName = "NewSpawnGroup")]
     public class SpawnGroup : ScriptableObject

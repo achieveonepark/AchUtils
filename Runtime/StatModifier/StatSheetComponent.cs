@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.StatModifier
+namespace AchUtils.StatModifier
 {
     public class StatSheetComponent : MonoBehaviour
     {

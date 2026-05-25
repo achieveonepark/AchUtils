@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AchieveOnePark.AchUtils.Formula
+namespace AchUtils.Formula
 {
     public class FormulaContext
     {

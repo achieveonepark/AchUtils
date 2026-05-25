@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Condition
+namespace AchUtils.Condition
 {
     [CreateAssetMenu(menuName = "AchUtils/Condition/Condition Graph", fileName = "NewConditionGraph")]
     public class ConditionGraph : ScriptableObject

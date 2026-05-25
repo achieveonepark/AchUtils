@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.TimeRewind
+namespace AchUtils.TimeRewind
 {
     public class RewindableObject : MonoBehaviour, IRewindable
     {

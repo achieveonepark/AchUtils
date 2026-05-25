@@ -1,4 +1,4 @@
-﻿namespace AchieveOnePark.AchUtils.TimeRewind
+﻿namespace AchUtils.TimeRewind
 {
     public interface IRewindable
     {

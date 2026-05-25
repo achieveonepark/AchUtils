@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AchieveOnePark.AchUtils.Spawn
+namespace AchUtils.Spawn
 {
     public class SpawnSystem
     {
