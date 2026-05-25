@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: 'AchUtils',
   description: 'AchUtils — Unity 게임 개발을 위한 재사용 가능한 13가지 시스템',
+  base: '/AchUtils/',
   lang: 'ko-KR',
   appearance: 'dark',
   cleanUrls: true,
@@ -25,7 +26,7 @@ export default defineConfig({
         text: 'v1.0.0',
         items: [
           { text: '변경 이력', link: '/changelog' },
-          { text: 'GitHub', link: 'https://github.com/achieveonepark/ss' },
+          { text: 'GitHub', link: 'https://github.com/achieveonepark/AchUtils' },
         ]
       }
     ],
@@ -88,7 +89,7 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/achieveonepark/ss' }
+      { icon: 'github', link: 'https://github.com/achieveonepark/AchUtils' }
     ],
 
     search: {
@@ -106,7 +107,7 @@ export default defineConfig({
     },
 
     editLink: {
-      pattern: 'https://github.com/achieveonepark/ss/edit/main/docs/:path',
+      pattern: 'https://github.com/achieveonepark/AchUtils/edit/main/docs/:path',
       text: '이 페이지 편집'
     },
 
