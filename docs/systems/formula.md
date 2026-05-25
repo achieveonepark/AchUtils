@@ -16,7 +16,7 @@ FormulaEvaluator — 재귀 하강 파서, 런타임 계산
 
 ### 1. FormulaAsset 만들기
 
-**Create → SS/Formula/Formula Asset**
+**Create → AchUtils/Formula/Formula Asset**
 
 인스펙터 `Expression` 필드에 수식을 입력합니다.
 

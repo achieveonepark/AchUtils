@@ -5,7 +5,8 @@ namespace AchieveOnePark.AchUtils.Tutorial
 {
     public class TutorialSystem : MonoBehaviour
     {
-        private const string SaveKey = "SS_Tutorial_Completed";
+        private const string SaveKey = "AchUtils_Tutorial_Completed";
+        private const string LegacySaveKey = "SS_Tutorial_Completed";
 
         public static TutorialSystem Instance { get; private set; }
 
@@ -57,6 +58,14 @@ namespace AchieveOnePark.AchUtils.Tutorial
         {
             _completedIds.Clear();
             string data = PlayerPrefs.GetString(SaveKey, "");
+            if (string.IsNullOrEmpty(data) && PlayerPrefs.HasKey(LegacySaveKey))
+            {
+                data = PlayerPrefs.GetString(LegacySaveKey, "");
+                PlayerPrefs.SetString(SaveKey, data);
+                PlayerPrefs.DeleteKey(LegacySaveKey);
+                PlayerPrefs.Save();
+            }
+
             if (string.IsNullOrEmpty(data)) return;
             foreach (var id in data.Split(','))
                 if (!string.IsNullOrEmpty(id))
@@ -67,6 +76,7 @@ namespace AchieveOnePark.AchUtils.Tutorial
         {
             _completedIds.Clear();
             PlayerPrefs.DeleteKey(SaveKey);
+            PlayerPrefs.DeleteKey(LegacySaveKey);
         }
     }
 }

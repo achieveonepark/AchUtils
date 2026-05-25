@@ -1,38 +1,38 @@
-﻿# 시퀀스 시스템
+# Sequence System
 
-`await/Coroutine` 지옥 없이 게임 연출 흐름을 **선언적 스텝 목록**으로 구성합니다.
+Build gameplay presentation flows as **declarative step lists** instead of deeply nested coroutines.
 
-## 구조
+## Structure
 
-```
+```text
 SequenceAsset (ScriptableObject)
   [SerializeReference] List<SequenceStep>
 
 SequenceRunner (MonoBehaviour)
-  — 스텝을 순서대로 코루틴 실행
+  - Runs steps in order as coroutines
 
 SequenceStep (abstract, [Serializable])
-  — 커스텀 스텝을 상속해서 구현
+  - Base class for custom steps
 ```
 
-## 기본 제공 스텝
+## Built-In Steps
 
-| 스텝 | 설명 |
-|------|------|
-| `WaitStep` | N초 대기 |
-| `MoveStep` | Transform을 목적지로 이동 (이징 지원) |
-| `FadeStep` | CanvasGroup 알파 애니메이션 |
-| `ScaleStep` | Transform 스케일 애니메이션 |
-| `SoundStep` | AudioClip 재생 |
-| `CallbackStep` | UnityEvent 호출 |
+| Step | Description |
+|------|-------------|
+| `WaitStep` | Waits for N seconds |
+| `MoveStep` | Moves a Transform to a destination with easing |
+| `FadeStep` | Animates CanvasGroup alpha |
+| `ScaleStep` | Animates Transform scale |
+| `SoundStep` | Plays an AudioClip |
+| `CallbackStep` | Invokes a UnityEvent |
 
-## 빠른 시작
+## Quick Start
 
-### 방법 A — SequenceAsset (에디터 설정)
+### Option A: SequenceAsset
 
-**Create → AchUtils/Sequence/Sequence Asset**
+**Create -> AchUtils/Sequence/Sequence Asset**
 
-인스펙터에서 스텝 추가 후 실행:
+Add steps in the inspector, then run the asset:
 
 ```csharp
 using AchieveOnePark.AchUtils.Sequence;
@@ -46,7 +46,7 @@ void PlayIntro()
 }
 ```
 
-### 방법 B — 코드로 구성
+### Option B: Build in Code
 
 ```csharp
 var steps = new List<SequenceStep>
@@ -67,7 +67,6 @@ runner.Run(steps);
 ### SequenceRunner
 
 ```csharp
-// 실행
 void Run(SequenceAsset asset)
 void Run(IEnumerable<SequenceStep> steps)
 void Stop()
@@ -83,16 +82,16 @@ event Action OnStopped
 ```csharp
 Transform       Target
 Vector3         Destination
-float           Duration        // 초
-AnimationCurve  Ease            // 기본: EaseInOut
-bool            UseLocalSpace   // true면 localPosition 사용
+float           Duration
+AnimationCurve  Ease
+bool            UseLocalSpace
 ```
 
 ### FadeStep
 
 ```csharp
 CanvasGroup     Target
-float           TargetAlpha     // 0~1
+float           TargetAlpha
 float           Duration
 AnimationCurve  Ease
 ```
@@ -110,17 +109,17 @@ AnimationCurve  Ease
 
 ```csharp
 AudioClip       Clip
-float           Volume              // 0~1
-bool            WaitUntilFinished   // true면 클립 재생 완료 대기
+float           Volume
+bool            WaitUntilFinished
 ```
 
 ### CallbackStep
 
 ```csharp
-UnityEvent      OnExecute           // 인스펙터에서 연결
+UnityEvent      OnExecute
 ```
 
-## 커스텀 스텝 만들기
+## Custom Steps
 
 ```csharp
 [Serializable]
@@ -138,29 +137,28 @@ public class ShowPanelStep : SequenceStep
 }
 ```
 
-`[Serializable]`만 붙이면 `[SerializeReference]` 필드에서 인스펙터 선택이 가능합니다.
+Add `[Serializable]` so the type can be selected through `[SerializeReference]`.
 
-## 완료 이벤트
+## Completion Event
 
 ```csharp
 runner.OnCompleted += () =>
 {
-    Debug.Log("인트로 연출 완료");
+    Debug.Log("Intro sequence completed");
     StartGameplay();
 };
 
 runner.Run(introSequence);
 ```
 
-## 연출 예시 — 보스 등장
+## Boss Intro Example
 
-```
-FadeStep     오버레이 Fade In  (0.3s)
-WaitStep     0.5s 대기
-MoveCameraAction  보스 방향 이동  ← CameraDirector와 병행 가능
-MoveStep     보스 등장 이동  (1.5s, EaseOut)
-ScaleStep    보스 스케일 업  (0.5s, Bounce)
-SoundStep    보스 포효
-FadeStep     오버레이 Fade Out (0.5s)
-CallbackStep UI 표시 이벤트
+```text
+FadeStep     Overlay fade in
+WaitStep     Wait 0.5s
+MoveStep     Boss enters
+ScaleStep    Boss scales up
+SoundStep    Boss roar
+FadeStep     Overlay fade out
+CallbackStep Show UI
 ```

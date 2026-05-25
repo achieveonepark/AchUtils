@@ -25,7 +25,7 @@ BuffEffect (abstract, [Serializable])
 
 ### 1. BuffDefinition 에셋 만들기
 
-**Create → SS/Buff/Buff Definition**
+**Create → AchUtils/Buff/Buff Definition**
 
 ```
 BuffId          : "Poison"

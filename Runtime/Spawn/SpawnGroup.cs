@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AchieveOnePark.AchUtils.Spawn
 {
-    [CreateAssetMenu(menuName = "SS/Spawn/Spawn Group", fileName = "NewSpawnGroup")]
+    [CreateAssetMenu(menuName = "AchUtils/Spawn/Spawn Group", fileName = "NewSpawnGroup")]
     public class SpawnGroup : ScriptableObject
     {
         [Serializable]

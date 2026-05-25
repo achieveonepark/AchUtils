@@ -1,0 +1,128 @@
+# Formula System
+
+Define formulas as **ScriptableObject strings** so designers can tune skill damage, experience, rewards, and balance numbers without changing code.
+
+## Overview
+
+```text
+FormulaAsset (ScriptableObject)
+  Expression: "Attack * SkillMultiplier - Defense + Random(0, 10)"
+
+FormulaContext   - Variable container (key -> float)
+FormulaEvaluator - Runtime recursive descent parser
+```
+
+## Quick Start
+
+### 1. Create a FormulaAsset
+
+**Create -> AchUtils/Formula/Formula Asset**
+
+Enter an expression in the inspector:
+
+```text
+Attack * SkillMultiplier - Defense + Random(0, 10)
+```
+
+### 2. Evaluate at Runtime
+
+```csharp
+using AchieveOnePark.AchUtils.Formula;
+
+var ctx = new FormulaContext();
+ctx.Set("Attack",          sheet.GetFinal("Attack"));
+ctx.Set("SkillMultiplier", skill.Multiplier);
+ctx.Set("Defense",         target.GetFinal("Defense"));
+
+float damage = damageFormula.Evaluate(ctx);
+target.TakeDamage(damage);
+```
+
+## Supported Syntax
+
+### Operators
+
+| Operator | Description | Example |
+|----------|-------------|---------|
+| `+` `-` | Add / subtract | `Attack + 50` |
+| `*` `/` | Multiply / divide | `Attack * 1.5` |
+| `( )` | Priority grouping | `(Attack + Defense) * 0.5` |
+| unary `-` | Negation | `-Defense` |
+
+### Built-In Functions
+
+| Function | Description |
+|----------|-------------|
+| `Random(min, max)` | Random float |
+| `Min(a, b)` | Minimum |
+| `Max(a, b)` | Maximum |
+| `Abs(x)` | Absolute value |
+| `Clamp(x, min, max)` | Clamp to range |
+| `Floor(x)` | Round down |
+| `Ceil(x)` | Round up |
+| `Round(x)` | Round |
+| `Sqrt(x)` | Square root |
+| `Pow(x, exp)` | Power |
+| `Sign(x)` | Sign (-1, 0, 1) |
+
+## Examples
+
+```text
+# Skill damage
+Attack * SkillMultiplier - Max(Defense - Penetration, 0)
+
+# Heal amount
+HealPower * 0.3 + Max(0, TargetMissingHP * 0.1)
+
+# Idle-game gold
+BaseGold * Pow(1.15, Floor(Level / 10)) + Random(0, 50)
+
+# Critical damage
+Attack * Clamp(CritMultiplier, 1.5, 3.0)
+```
+
+## API
+
+### FormulaContext
+
+```csharp
+void  Set(string key, float value)
+float Get(string key)
+bool  Has(string key)
+void  Clear()
+```
+
+### FormulaAsset
+
+```csharp
+[TextArea] string Expression
+
+float Evaluate(FormulaContext context)
+```
+
+### FormulaEvaluator
+
+```csharp
+var evaluator = new FormulaEvaluator();
+float result = evaluator.Evaluate("Attack * 2 + 10", ctx);
+```
+
+## Error Handling
+
+Missing variables or invalid syntax throw `System.Exception`.
+
+```csharp
+try
+{
+    float damage = formula.Evaluate(ctx);
+}
+catch (Exception e)
+{
+    Debug.LogError($"[Formula] {formula.name}: {e.Message}");
+    damage = 0f;
+}
+```
+
+::: warning Thread safety
+`FormulaEvaluator` stores parser state in instance fields. Do not use the same evaluator instance concurrently from multiple threads. `FormulaAsset` caches one evaluator internally.
+:::

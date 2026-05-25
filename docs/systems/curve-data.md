@@ -20,7 +20,7 @@ CurveDataTable (ScriptableObject)
 
 ### 1. CurveDataAsset 만들기
 
-**Create → SS/Curve/Curve Data Asset**
+**Create → AchUtils/Curve/Curve Data Asset**
 
 ```
 Curve    : [그래프 에디터에서 곡선 편집]
@@ -45,7 +45,7 @@ float exp = expCurve.Evaluate(10f);
 
 ### 3. CurveDataTable로 여러 커브 묶기
 
-**Create → SS/Curve/Curve Data Table**
+**Create → AchUtils/Curve/Curve Data Table**
 
 ```csharp
 [SerializeField] CurveDataTable statTable;

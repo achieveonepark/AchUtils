@@ -20,7 +20,7 @@ Spawner (MonoBehaviour)
 
 ### 1. SpawnGroup 에셋 만들기
 
-**Create → SS/Spawn/Spawn Group**
+**Create → AchUtils/Spawn/Spawn Group**
 
 ```
 SpawnInterval : 5       ← 5초마다 스폰 시도

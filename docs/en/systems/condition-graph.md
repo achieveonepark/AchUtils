@@ -1,10 +1,10 @@
-﻿# 조건 그래프
+# Condition Graph
 
-복잡한 게임 조건을 **AND / OR / NOT 노드 트리**로 데이터화합니다. `if` 지옥을 없애고 기획자가 인스펙터에서 직접 조건을 구성할 수 있습니다.
+Represent complex game conditions as **AND / OR / NOT node trees**. This keeps condition logic out of nested `if` blocks and lets designers configure gates in the inspector.
 
-## 구조
+## Structure
 
-```
+```text
 ConditionGraph (ScriptableObject)
   └── Root: ConditionNode  [SerializeReference]
               ├── AndConditionNode
@@ -16,41 +16,39 @@ ConditionGraph (ScriptableObject)
                     └── ...
 ```
 
-## 빠른 시작
+## Quick Start
 
-### 1. ConditionGraph 에셋 만들기
+### 1. Create a ConditionGraph Asset
 
-**Create → AchUtils/Condition/Condition Graph**
+**Create -> AchUtils/Condition/Condition Graph**
 
-인스펙터에서 `Root`에 `[+]` 버튼으로 노드를 추가합니다.
+Add nodes to `Root` in the inspector.
 
-### 2. 조건 평가
+### 2. Evaluate Conditions
 
 ```csharp
 using AchieveOnePark.AchUtils.Condition;
 
-// 컨텍스트에 현재 게임 상태 주입
 var ctx = new ConditionContext();
 ctx.Set("Level", player.Level);
 ctx.Set("VIP", player.VipGrade);
 ctx.Set("Tutorial", tutorialDone ? 1f : 0f);
 
-// 그래프 평가
 bool canOpen = shopConditionGraph.Evaluate(ctx);
 shopPanel.SetActive(canOpen);
 ```
 
-## 노드 종류
+## Node Types
 
 ### CompareConditionNode
 
-숫자 값을 비교합니다.
+Compares numeric values.
 
-| 필드 | 타입 | 설명 |
-|------|------|------|
-| `Key` | string | 컨텍스트 키 |
-| `Op` | CompareOp | 비교 연산자 |
-| `Value` | float | 비교 대상 값 |
+| Field | Type | Description |
+|-------|------|-------------|
+| `Key` | string | Context key |
+| `Op` | CompareOp | Comparison operator |
+| `Value` | float | Comparison value |
 
 ```csharp
 public enum CompareOp
@@ -63,35 +61,35 @@ public enum CompareOp
 
 ### AndConditionNode
 
-자식 노드 **모두** true일 때 true.
+Returns true only when **all** children evaluate to true.
 
-```
+```text
 AND
-├ Level >= 10   ✓
-├ VIP >= 3      ✓
-└ Tutorial == 1 ✓
-→ true
+├ Level >= 10   true
+├ VIP >= 3      true
+└ Tutorial == 1 true
+-> true
 ```
 
 ### OrConditionNode
 
-자식 노드 **하나라도** true이면 true.
+Returns true when **any** child evaluates to true.
 
-```
+```text
 OR
-├ HasFreeItem == 1   ✓
-└ HasDiscount == 1   ✗
-→ true
+├ HasFreeItem == 1   true
+└ HasDiscount == 1   false
+-> true
 ```
 
 ### NotConditionNode
 
-자식 노드의 결과를 반전합니다.
+Inverts the child result.
 
-```
+```text
 NOT
-└ IsBanned == 1   ✗
-→ true
+└ IsBanned == 1   false
+-> true
 ```
 
 ## ConditionContext API
@@ -106,27 +104,20 @@ ctx.Remove("Level");
 ctx.Clear();
 ```
 
-::: tip 컨텍스트 재사용
-`ConditionContext`는 매 프레임 생성하지 말고 필드로 보유한 뒤 `Set`으로 값만 갱신하세요.
+::: tip Reuse contexts
+Avoid allocating a new `ConditionContext` every frame. Keep one instance and update values with `Set`.
 :::
 
-## 활용 사례
+## Use Cases
 
 ```csharp
-// 상점 노출 조건
-shopGraph.Evaluate(ctx)
-
-// 이벤트 오픈
-eventGraph.Evaluate(ctx)
-
-// 업적 달성 조건
-achievementGraph.Evaluate(ctx)
-
-// 광고 등장 조건
-adGraph.Evaluate(ctx)
+shopGraph.Evaluate(ctx)        // Shop visibility
+eventGraph.Evaluate(ctx)       // Event availability
+achievementGraph.Evaluate(ctx) // Achievement completion
+adGraph.Evaluate(ctx)          // Ad placement rules
 ```
 
-## 커스텀 노드 추가
+## Custom Nodes
 
 ```csharp
 [Serializable]
@@ -144,4 +135,4 @@ public class DateRangeConditionNode : ConditionNode
 }
 ```
 
-`[SerializeReference]`와 `[Serializable]` 어트리뷰트만 붙이면 인스펙터에서 바로 사용 가능합니다.
+Add `[Serializable]` to make the node available through `[SerializeReference]` fields in the inspector.

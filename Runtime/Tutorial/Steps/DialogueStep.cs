@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace AchieveOnePark.AchUtils.Tutorial
 {
-    [CreateAssetMenu(menuName = "SS/Tutorial/Steps/Dialogue", fileName = "DialogueStep")]
+    [CreateAssetMenu(menuName = "AchUtils/Tutorial/Steps/Dialogue", fileName = "DialogueStep")]
     public class DialogueStep : TutorialStep
     {
         [TextArea(2, 6)] public string Message;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AchieveOnePark.AchUtils.Buff
 {
-    [CreateAssetMenu(menuName = "SS/Buff/Buff Definition", fileName = "NewBuff")]
+    [CreateAssetMenu(menuName = "AchUtils/Buff/Buff Definition", fileName = "NewBuff")]
     public class BuffDefinition : ScriptableObject
     {
         public string BuffId;

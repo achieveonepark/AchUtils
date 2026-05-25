@@ -1,35 +1,35 @@
-﻿# 퀘스트 시스템
+# Quest System
 
-**Kill → Talk → Collect** 스텝을 조합하는 범용 퀘스트 파이프라인입니다. RPG부터 캐주얼까지 이벤트 기반으로 진행 상황을 추적합니다.
+A general quest pipeline built from **Kill -> Talk -> Collect** steps. It tracks progress through gameplay events and works for RPGs, casual games, and mission systems.
 
-## 구조
+## Structure
 
-```
-QuestSystem (MonoBehaviour 싱글턴)
-  — 활성 퀘스트 관리, 이벤트 라우팅
+```text
+QuestSystem (MonoBehaviour singleton)
+  - Manages active quests and routes events
 
 QuestDefinition (ScriptableObject)
-  — 제목, 설명, 보상 목록
+  - Title, description, rewards
   [SerializeReference] List<QuestStep>
 
 QuestInstance (runtime)
-  — 현재 스텝 인덱스, 완료 상태
+  - Current step index and completion state
 
 QuestStep (abstract, [Serializable])
-  ├── KillQuestStep     — 특정 적 N마리 처치
-  ├── TalkQuestStep     — 특정 NPC와 대화
-  └── CollectQuestStep  — 특정 아이템 N개 수집
+  ├── KillQuestStep     - Kill N enemies of a type
+  ├── TalkQuestStep     - Talk to a specific NPC
+  └── CollectQuestStep  - Collect N items of a type
 ```
 
-## 빠른 시작
+## Quick Start
 
-### 1. QuestDefinition 에셋 만들기
+### 1. Create a QuestDefinition
 
-**Create → AchUtils/Quest/Quest Definition**
+**Create -> AchUtils/Quest/Quest Definition**
 
-```
+```text
 QuestId : "MainQuest_01"
-Title   : "슬라임 토벌"
+Title   : "Slime Hunt"
 
 Steps:
   [0] KillQuestStep
@@ -46,11 +46,11 @@ Rewards:
   [1] QuestReward { RewardId: "Exp",  Amount: 200 }
 ```
 
-### 2. 씬에 QuestSystem 추가
+### 2. Add QuestSystem to the Scene
 
-`QuestSystem` 컴포넌트를 씬에 배치합니다.
+Place a `QuestSystem` component in the scene.
 
-### 3. 퀘스트 시작
+### 3. Start a Quest
 
 ```csharp
 using AchieveOnePark.AchUtils.Quest;
@@ -58,34 +58,29 @@ using AchieveOnePark.AchUtils.Quest;
 var instance = QuestSystem.Instance.StartQuest(mainQuest01);
 
 instance.OnStepCompleted += step =>
-    Debug.Log($"스텝 {step} 완료");
+    Debug.Log($"Step {step} completed");
 
 instance.OnQuestCompleted += () =>
     GiveRewards(mainQuest01.Rewards);
 ```
 
-### 4. 이벤트 발행
+### 4. Publish Events
 
-게임 내 어디서든 Progress를 호출합니다. 현재 활성인 모든 퀘스트가 이벤트를 수신합니다.
+Call `Progress` from anywhere in the game. Every active quest receives the event.
 
 ```csharp
-// 몬스터 사망 시
 QuestSystem.Instance.Progress("Kill", "Slime");
-
-// NPC 대화 시
 QuestSystem.Instance.Progress("Talk", "GuardNPC");
-
-// 아이템 획득 시
 QuestSystem.Instance.Progress("Collect", "SlimeGel");
 ```
 
-## 이벤트 키 규칙
+## Event Key Rules
 
-| 키 | 두 번째 인자 (`data`) | 스텝 |
-|----|----------------------|------|
-| `"Kill"` | 적 타입 string | `KillQuestStep` |
+| Key | `data` argument | Step |
+|-----|-----------------|------|
+| `"Kill"` | Enemy type string | `KillQuestStep` |
 | `"Talk"` | NPC ID string | `TalkQuestStep` |
-| `"Collect"` | 아이템 ID string | `CollectQuestStep` |
+| `"Collect"` | Item ID string | `CollectQuestStep` |
 
 ## API
 
@@ -112,13 +107,13 @@ event Action<QuestInstance, int> OnQuestStepCompleted
 QuestDefinition Definition
 int             CurrentStepIndex
 bool            IsCompleted
-QuestStep       CurrentStep     // 현재 진행 중인 스텝
+QuestStep       CurrentStep
 
 event Action<int> OnStepCompleted
 event Action      OnQuestCompleted
 ```
 
-## 커스텀 스텝 만들기
+## Custom Steps
 
 ```csharp
 [Serializable]
@@ -140,16 +135,14 @@ public class ReachLocationStep : QuestStep
 ```
 
 ```csharp
-// 특정 위치 도달 시
 QuestSystem.Instance.Progress("ReachLocation", "DungeonEntrance");
 ```
 
-## 중복 시작 방지
+## Duplicate Start Guard
 
-같은 `QuestId`의 퀘스트는 중복 시작되지 않습니다. 이미 완료된 퀘스트도 다시 시작되지 않습니다.
+The same `QuestId` cannot be started twice. Completed quests are not started again.
 
 ```csharp
-// 두 번 호출해도 인스턴스는 하나
 QuestSystem.Instance.StartQuest(mainQuest01);
-QuestSystem.Instance.StartQuest(mainQuest01); // 무시됨
+QuestSystem.Instance.StartQuest(mainQuest01); // Ignored
 ```

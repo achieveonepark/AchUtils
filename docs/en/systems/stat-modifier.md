@@ -1,0 +1,129 @@
+# Stat Modifier
+
+AchUtils includes a stat calculation pipeline for RPGs, idle games, strategy games, and any game with additive and percentage modifiers. Final values are calculated in this order: Flat -> PercentAdd -> PercentMultiply.
+
+## Formula
+
+```text
+Final = (Base + sum(Flat)) * (1 + sum(PercentAdd)) * product(PercentMultiply)
+```
+
+Example:
+
+```text
+Base Attack : 100
+Weapon      : +20  (Flat)
+Buff        : +30% (PercentAdd)
+Passive     : x1.15 (PercentMultiply)
+
+Final = (100 + 20) * (1 + 0.30) * 1.15
+      = 179.4
+```
+
+## Structure
+
+```text
+StatSheet               - Stat container (pure C#)
+  └── Dictionary<string, StatValue>
+
+StatValue               - Single stat and modifier list
+  └── List<StatModifier>
+
+StatSheetComponent      - MonoBehaviour wrapper for GameObjects
+```
+
+## Quick Start
+
+```csharp
+using AchieveOnePark.AchUtils.StatModifier;
+
+var sheet = new StatSheet();
+
+sheet.SetBase("Attack", 100f);
+sheet.SetBase("Defense", 50f);
+
+sheet.AddModifier("Attack", new StatModifier("weapon_sword",  ModifierType.Flat,            20f));
+sheet.AddModifier("Attack", new StatModifier("buff_rage",     ModifierType.PercentAdd,       0.3f));
+sheet.AddModifier("Attack", new StatModifier("passive_might", ModifierType.PercentMultiply,  0.15f));
+
+float finalAtk = sheet.GetFinal("Attack");   // 179.4
+```
+
+## StatModifier Constructor
+
+```csharp
+new StatModifier(
+    source:   "weapon_sword",
+    type:     ModifierType.Flat,
+    value:    20f,
+    priority: 0
+)
+```
+
+## API
+
+### StatSheet
+
+```csharp
+void SetBase(string key, float value)
+float GetFinal(string key)
+StatValue GetStat(string key)
+
+void AddModifier(string key, StatModifier modifier)
+void RemoveModifier(string key, string source)
+void RemoveAllModifiers(string key)
+
+bool HasStat(string key)
+event Action<string> OnStatChanged
+```
+
+### StatValue
+
+```csharp
+float BaseValue  { get; set; }
+float FinalValue { get; }
+
+void AddModifier(StatModifier modifier)
+bool RemoveModifier(string source)
+void RemoveAllModifiers()
+
+event Action OnChanged
+```
+
+## Use With MonoBehaviour
+
+```csharp
+var sheetComp = GetComponent<StatSheetComponent>();
+sheetComp.Sheet.SetBase("HP", 500f);
+sheetComp.Sheet.SetBase("Attack", 100f);
+
+sheetComp.Sheet.AddModifier("Attack",
+    new StatModifier("equip_sword", ModifierType.Flat, 35f));
+
+sheetComp.Sheet.RemoveModifier("Attack", "equip_sword");
+```
+
+## Observe Stat Changes
+
+```csharp
+sheet.OnStatChanged += statKey =>
+{
+    if (statKey == "HP") UpdateHPBar(sheet.GetFinal("HP"));
+};
+```
+
+## Source Naming
+
+```text
+"base"          - Base value
+"equip_{id}"    - Equipment
+"buff_{id}"     - Buff system integration
+"passive_{id}"  - Passive skill
+"set_{id}"      - Set effect
+```
+
+::: tip Buff integration
+`StatModifyEffect` updates `StatSheet` automatically when a buff is applied or removed.
+
+See [Buff / Debuff](/en/systems/buff-debuff).
+:::

@@ -2,7 +2,7 @@
 
 namespace AchieveOnePark.AchUtils.Curve
 {
-    [CreateAssetMenu(menuName = "SS/Curve/Curve Data Asset", fileName = "NewCurveData")]
+    [CreateAssetMenu(menuName = "AchUtils/Curve/Curve Data Asset", fileName = "NewCurveData")]
     public class CurveDataAsset : ScriptableObject
     {
         public AnimationCurve Curve = AnimationCurve.Linear(0f, 0f, 1f, 1f);

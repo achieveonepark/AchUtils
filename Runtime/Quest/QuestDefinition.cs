@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AchieveOnePark.AchUtils.Quest
 {
-    [CreateAssetMenu(menuName = "SS/Quest/Quest Definition", fileName = "NewQuest")]
+    [CreateAssetMenu(menuName = "AchUtils/Quest/Quest Definition", fileName = "NewQuest")]
     public class QuestDefinition : ScriptableObject
     {
         public string QuestId;
