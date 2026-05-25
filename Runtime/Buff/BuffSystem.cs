@@ -1,25 +1,17 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace AchieveOnePark.AchUtils.Buff
 {
-    public class BuffSystem : MonoBehaviour
+    public class BuffSystem
     {
-        public static BuffSystem Instance { get; private set; }
-
         private readonly Dictionary<GameObject, List<BuffInstance>> _buffs = new();
 
         public event Action<BuffInstance> OnBuffApplied;
         public event Action<BuffInstance> OnBuffRemoved;
 
-        private void Awake()
-        {
-            if (Instance != null && Instance != this) { Destroy(gameObject); return; }
-            Instance = this;
-        }
-
-        private void Update()
+        public void Tick(float deltaTime)
         {
             foreach (var kvp in _buffs)
             {
@@ -29,11 +21,11 @@ namespace AchieveOnePark.AchUtils.Buff
                     var buff = list[i];
 
                     if (!buff.IsPermanent)
-                        buff.RemainingDuration -= Time.deltaTime;
+                        buff.RemainingDuration -= deltaTime;
 
                     if (buff.Definition.TickInterval > 0f)
                     {
-                        buff.TickTimer += Time.deltaTime;
+                        buff.TickTimer += deltaTime;
                         if (buff.TickTimer >= buff.Definition.TickInterval)
                         {
                             buff.TickTimer -= buff.Definition.TickInterval;
@@ -64,6 +56,7 @@ namespace AchieveOnePark.AchUtils.Buff
                     foreach (var e in definition.Effects)
                         e.OnStackAdded(existing, target, existing.Stacks);
                 }
+
                 if (definition.RefreshDurationOnReapply)
                     existing.RemainingDuration = definition.Duration;
                 return existing;

@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "AchUtils"
   text: "Unity Game Systems"
-  tagline: 게임 개발의 반복 작업을 없애는 13가지 재사용 가능한 시스템. 각각 독립 인스턴스로 관리됩니다.
+  tagline: 게임 개발의 반복 작업을 없애는 12가지 재사용 가능한 시스템. 각각 독립 인스턴스로 관리됩니다.
   actions:
     - theme: brand
       text: 빠른 시작 →
@@ -24,12 +24,6 @@ features:
     title: 조건 그래프
     details: AND / OR / NOT 노드로 복잡한 게임 조건을 데이터로 정의. 상점 오픈, 이벤트, 업적에 활용.
     link: /systems/condition-graph
-    linkText: 자세히 보기
-
-  - icon: 🔴
-    title: 레드닷 시스템
-    details: 경로 기반 계층 등록으로 부모/자식 자동 집계. 단 한 줄로 UI 알림 뱃지 등록.
-    link: /systems/red-dot
     linkText: 자세히 보기
 
   - icon: ⚔️

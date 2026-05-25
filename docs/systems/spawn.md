@@ -5,7 +5,7 @@
 ## 구조
 
 ```
-SpawnSystem (MonoBehaviour 싱글턴)
+SpawnSystem (순수 C# 인스턴스)
   — 씬 내 모든 Spawner 등록 관리
 
 SpawnGroup (ScriptableObject)
@@ -64,10 +64,19 @@ spawner.OnDespawned += obj => Debug.Log($"{obj.name} 제거");
 ### 4. SpawnSystem으로 전체 제어
 
 ```csharp
+[SerializeField] Spawner[] spawners;
+
+private SpawnSystem spawnSystem;
+
+void Awake()
+{
+    spawnSystem = new SpawnSystem(spawners);
+}
+
 // 모든 스포너 시작 / 중지
-SpawnSystem.Instance.StartAll();
-SpawnSystem.Instance.StopAll();
-SpawnSystem.Instance.DespawnAll();
+spawnSystem.StartAll();
+spawnSystem.StopAll();
+spawnSystem.DespawnAll();
 ```
 
 ## API
@@ -89,6 +98,9 @@ event Action<GameObject> OnDespawned
 ### SpawnSystem
 
 ```csharp
+SpawnSystem()
+SpawnSystem(IEnumerable<Spawner> spawners)
+
 void RegisterSpawner(Spawner spawner)
 void UnregisterSpawner(Spawner spawner)
 

@@ -1,30 +1,30 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace AchieveOnePark.AchUtils.Tutorial
 {
-    public class TutorialSystem : MonoBehaviour
+    public class TutorialSystem : IDisposable
     {
         private const string SaveKey = "AchUtils_Tutorial_Completed";
         private const string LegacySaveKey = "SS_Tutorial_Completed";
 
-        public static TutorialSystem Instance { get; private set; }
-
         private readonly HashSet<string> _completedIds = new();
-        private TutorialRunner _runner;
+        private readonly TutorialRunner _runner;
 
-        private void Awake()
+        public TutorialSystem(TutorialRunner runner, bool loadOnCreate = true)
         {
-            if (Instance != null && Instance != this) { Destroy(gameObject); return; }
-            Instance = this;
-            _runner = GetComponent<TutorialRunner>() ?? gameObject.AddComponent<TutorialRunner>();
-            Load();
+            _runner = runner ?? throw new ArgumentNullException(nameof(runner));
+            _runner.OnCompleted += HandleCompleted;
+            if (loadOnCreate)
+                Load();
         }
 
         public bool IsCompleted(string sequenceId) => _completedIds.Contains(sequenceId);
 
         public void MarkCompleted(string sequenceId)
         {
+            if (string.IsNullOrEmpty(sequenceId)) return;
             _completedIds.Add(sequenceId);
             Save();
         }
@@ -47,6 +47,13 @@ namespace AchieveOnePark.AchUtils.Tutorial
         public void TriggerAction(string key) => _runner.TriggerAction(key);
 
         public TutorialRunner Runner => _runner;
+
+        private void HandleCompleted()
+        {
+            var sequence = _runner.CurrentSequence;
+            if (sequence != null && sequence.SaveProgress)
+                MarkCompleted(sequence.SequenceId);
+        }
 
         public void Save()
         {
@@ -77,6 +84,11 @@ namespace AchieveOnePark.AchUtils.Tutorial
             _completedIds.Clear();
             PlayerPrefs.DeleteKey(SaveKey);
             PlayerPrefs.DeleteKey(LegacySaveKey);
+        }
+
+        public void Dispose()
+        {
+            _runner.OnCompleted -= HandleCompleted;
         }
     }
 }

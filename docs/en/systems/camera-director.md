@@ -5,7 +5,7 @@ Compose **camera presentation chains** around gameplay events. It is intentional
 ## Structure
 
 ```text
-CameraDirector (MonoBehaviour singleton)
+CameraDirector (MonoBehaviour runner for coroutines)
   - Holds the Camera reference and runs action sequences
 
 CameraAction (abstract, [Serializable])
@@ -26,7 +26,9 @@ Add `CameraDirector` to a scene object. If the `Camera` field is empty, it uses 
 ```csharp
 using AchieveOnePark.AchUtils.Camera;
 
-CameraDirector.Instance.Play(new ShakeCameraAction
+[SerializeField] CameraDirector cameraDirector;
+
+cameraDirector.Play(new ShakeCameraAction
 {
     Duration  = 0.5f,
     Intensity = 0.3f,
@@ -37,7 +39,9 @@ CameraDirector.Instance.Play(new ShakeCameraAction
 ### 3. Play a Sequence
 
 ```csharp
-CameraDirector.Instance.PlaySequence(new CameraAction[]
+[SerializeField] CameraDirector cameraDirector;
+
+cameraDirector.PlaySequence(new CameraAction[]
 {
     new MoveCameraAction
     {
@@ -57,7 +61,7 @@ CameraDirector.Instance.PlaySequence(new CameraAction[]
 ### CameraDirector
 
 ```csharp
-static CameraDirector Instance
+CameraDirector cameraDirector
 
 Camera Camera
 
@@ -105,13 +109,13 @@ float Duration
 ## Completion Callback
 
 ```csharp
-CameraDirector.Instance.OnSequenceCompleted += () =>
+cameraDirector.OnSequenceCompleted += () =>
 {
     player.EnableControl();
     UI.ShowBossHealthBar();
 };
 
-CameraDirector.Instance.PlaySequence(bossIntroActions);
+cameraDirector.PlaySequence(bossIntroActions);
 ```
 
 ## Custom Actions

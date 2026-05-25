@@ -5,7 +5,7 @@ A general-purpose buff pipeline for duration, stacks, ticks, and priority. Poiso
 ## Structure
 
 ```text
-BuffSystem (MonoBehaviour singleton)
+BuffSystem (pure C# instance)
   - Updates timers, ticks, and expiration for active buffs
 
 BuffDefinition (ScriptableObject)
@@ -40,22 +40,32 @@ Effects:
         DamagePerTick: 15
 ```
 
-### 2. Add BuffSystem to the Scene
+### 2. Create a BuffSystem Instance
 
-Place a `BuffSystem` component in the scene.
+`BuffSystem` is not a `MonoBehaviour`. Create it from the owner that needs it, then call `Tick` every frame to update durations and ticks.
 
 ### 3. Apply and Remove Buffs
 
 ```csharp
 using AchieveOnePark.AchUtils.Buff;
 
-BuffSystem.Instance.Apply(poisonDef, target);
+private readonly BuffSystem buffSystem = new();
 
-BuffSystem.Instance.Remove("Poison", target);
+[SerializeField] BuffDefinition poisonDef;
+[SerializeField] GameObject target;
 
-bool hasPoisoned = BuffSystem.Instance.Has("Poison", target);
+void Update()
+{
+    buffSystem.Tick(Time.deltaTime);
+}
 
-BuffSystem.Instance.RemoveAll(target);
+buffSystem.Apply(poisonDef, target);
+
+buffSystem.Remove("Poison", target);
+
+bool hasPoisoned = buffSystem.Has("Poison", target);
+
+buffSystem.RemoveAll(target);
 ```
 
 ## API
@@ -68,6 +78,8 @@ bool         Remove(string buffId, GameObject target)
 void         RemoveAll(GameObject target)
 bool         Has(string buffId, GameObject target)
 List<BuffInstance> GetBuffs(GameObject target)
+
+void Tick(float deltaTime)
 
 event Action<BuffInstance> OnBuffApplied
 event Action<BuffInstance> OnBuffRemoved

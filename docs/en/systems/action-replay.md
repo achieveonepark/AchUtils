@@ -5,11 +5,11 @@ Record player input as **timestamped frames** and replay it at any speed. Use it
 ## Structure
 
 ```text
-ActionRecorder (MonoBehaviour)
+ActionRecorder (pure C# instance)
   - Adds InputFrame entries to ReplayData when input occurs
 
-ActionPlayer (MonoBehaviour)
-  - Plays ReplayData by timestamp and emits OnFrame events
+ActionPlayer (pure C# instance)
+  - Plays ReplayData through Tick(deltaTime) and emits OnFrame events
 
 InputFrame (struct)
   - Timestamp, ActionKey, Axis, IsPressed
@@ -25,7 +25,7 @@ ReplayData (class)
 ```csharp
 using AchieveOnePark.AchUtils.ActionReplay;
 
-[SerializeField] ActionRecorder recorder;
+private readonly ActionRecorder recorder = new();
 
 recorder.StartRecording();
 
@@ -47,7 +47,12 @@ SaveReplay(data);
 ### 2. Replay
 
 ```csharp
-[SerializeField] ActionPlayer player;
+private readonly ActionPlayer player = new();
+
+void Update()
+{
+    player.Tick(Time.deltaTime);
+}
 
 void PlayGhost(ReplayData data)
 {
@@ -95,6 +100,7 @@ bool IsPlaying
 
 void Play(ReplayData data, float speed = 1f)
 void Stop()
+void Tick(float deltaTime)
 
 event Action<InputFrame> OnFrame
 event Action             OnCompleted

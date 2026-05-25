@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "AchUtils"
   text: "Unity Game Systems"
-  tagline: 13 reusable systems that remove repetitive Unity game-development work. Each system can be used as an independent instance.
+  tagline: 12 reusable systems that remove repetitive Unity game-development work. Each system can be used as an independent instance.
   actions:
     - theme: brand
       text: Quick Start
@@ -22,11 +22,6 @@ features:
   - title: Condition Graph
     details: Define complex game conditions as AND / OR / NOT data trees for shops, events, achievements, and UI gates.
     link: /en/systems/condition-graph
-    linkText: Learn more
-
-  - title: Red Dot System
-    details: Register hierarchical notification badges by path and automatically aggregate child states into parent menus.
-    link: /en/systems/red-dot
     linkText: Learn more
 
   - title: Stat Modifier

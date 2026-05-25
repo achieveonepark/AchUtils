@@ -7,8 +7,6 @@ namespace AchieveOnePark.AchUtils.Camera
 {
     public class CameraDirector : MonoBehaviour
     {
-        public static CameraDirector Instance { get; private set; }
-
         [SerializeField] private UnityEngine.Camera _camera;
 
         private Coroutine _current;
@@ -17,12 +15,6 @@ namespace AchieveOnePark.AchUtils.Camera
         public bool IsPlaying { get; private set; }
 
         public event Action OnSequenceCompleted;
-
-        private void Awake()
-        {
-            if (Instance != null && Instance != this) { Destroy(gameObject); return; }
-            Instance = this;
-        }
 
         public void Play(CameraAction action)
         {

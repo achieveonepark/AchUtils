@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections;
+using System;
 using UnityEngine;
 
 namespace AchieveOnePark.AchUtils.ActionReplay
 {
-    public class ActionPlayer : MonoBehaviour
+    public class ActionPlayer
     {
-        private Coroutine _coroutine;
+        private ReplayData _data;
+        private float _speed = 1f;
+        private float _elapsed;
+        private int _nextFrameIndex;
 
         public bool IsPlaying { get; private set; }
 
@@ -18,36 +20,38 @@ namespace AchieveOnePark.AchUtils.ActionReplay
         {
             if (data == null || data.Frames.Count == 0) return;
             Stop();
-            _coroutine = StartCoroutine(Playback(data, Mathf.Max(0.01f, speed)));
+            _data = data;
+            _speed = Mathf.Max(0.01f, speed);
+            _elapsed = 0f;
+            _nextFrameIndex = 0;
+            IsPlaying = true;
         }
 
         public void Stop()
         {
-            if (_coroutine != null)
-            {
-                StopCoroutine(_coroutine);
-                _coroutine = null;
-                IsPlaying = false;
-                OnStopped?.Invoke();
-            }
+            if (!IsPlaying) return;
+            _data = null;
+            IsPlaying = false;
+            OnStopped?.Invoke();
         }
 
-        private IEnumerator Playback(ReplayData data, float speed)
+        public void Tick(float deltaTime)
         {
-            IsPlaying = true;
-            float startTime = Time.time;
+            if (!IsPlaying || _data == null) return;
 
-            foreach (var frame in data.Frames)
+            _elapsed += Mathf.Max(0f, deltaTime) * _speed;
+
+            while (_nextFrameIndex < _data.Frames.Count &&
+                   _data.Frames[_nextFrameIndex].Timestamp <= _elapsed)
             {
-                float targetTime = frame.Timestamp / speed;
-                while (Time.time - startTime < targetTime)
-                    yield return null;
-
-                OnFrame?.Invoke(frame);
+                OnFrame?.Invoke(_data.Frames[_nextFrameIndex]);
+                _nextFrameIndex++;
             }
 
+            if (_nextFrameIndex < _data.Frames.Count) return;
+
+            _data = null;
             IsPlaying = false;
-            _coroutine = null;
             OnCompleted?.Invoke();
         }
     }

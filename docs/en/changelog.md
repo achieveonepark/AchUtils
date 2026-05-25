@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.0.0 (2024-05)
+## v1.0.0 (2026-05)
 
 **Initial release**
 
@@ -8,7 +8,6 @@
 
 - Tutorial System - ScriptableObject-based nodes with save and restore support
 - Condition Graph - AND / OR / NOT condition trees
-- Red Dot System - Path-based hierarchical aggregation
 - Stat Modifier - Flat / PercentAdd / PercentMultiply calculation pipeline
 - Formula System - Recursive descent parser for designer-editable formulas
 - Curve Data - AnimationCurve-based balance tables

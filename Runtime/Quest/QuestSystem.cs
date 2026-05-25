@@ -1,25 +1,16 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace AchieveOnePark.AchUtils.Quest
 {
-    public class QuestSystem : MonoBehaviour
+    public class QuestSystem
     {
-        public static QuestSystem Instance { get; private set; }
-
         private readonly List<QuestInstance> _activeQuests = new();
         private readonly HashSet<string> _completedQuestIds = new();
 
         public event Action<QuestInstance> OnQuestStarted;
         public event Action<QuestInstance> OnQuestCompleted;
         public event Action<QuestInstance, int> OnQuestStepCompleted;
-
-        private void Awake()
-        {
-            if (Instance != null && Instance != this) { Destroy(gameObject); return; }
-            Instance = this;
-        }
 
         public QuestInstance StartQuest(QuestDefinition definition)
         {

@@ -11,8 +11,6 @@ namespace AchieveOnePark.AchUtils.Tutorial
         public Color HighlightColor = new Color(1f, 1f, 0f, 0.4f);
         public string WaitForActionKey;
 
-        private static readonly int ColorProperty = Shader.PropertyToID("_Color");
-
         public override IEnumerator Execute(TutorialRunner runner)
         {
             if (TargetObject == null) yield break;

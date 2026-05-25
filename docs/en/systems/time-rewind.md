@@ -5,7 +5,7 @@ Record snapshots from every object that implements `IRewindable` and restore the
 ## Structure
 
 ```text
-TimeRewindSystem (MonoBehaviour singleton)
+TimeRewindSystem (pure C# instance)
   - Records snapshots for registered IRewindable objects
   - Restores a target time with RewindTo(float secondsAgo)
 
@@ -19,14 +19,14 @@ RewindableObject (MonoBehaviour)
 
 ## Quick Start
 
-### 1. Add TimeRewindSystem
+### 1. Create a TimeRewindSystem Instance
 
-Add `TimeRewindSystem` to a scene object.
+`TimeRewindSystem` is a pure C# class. Create it from an owner component and call `Tick` from `Update`.
 
-| Inspector field | Default | Description |
+| Constructor argument | Default | Description |
 |-----------------|---------|-------------|
-| `Max History Seconds` | 5 | Maximum recorded history in seconds |
-| `Snapshots Per Second` | 10 | Snapshot frequency |
+| `maxHistorySeconds` | 5 | Maximum recorded history in seconds |
+| `snapshotsPerSecond` | 10 | Snapshot frequency |
 
 ### 2. Add RewindableObject
 
@@ -41,11 +41,27 @@ gameObject.AddComponent<RewindableObject>();
 ```csharp
 using AchieveOnePark.AchUtils.TimeRewind;
 
-TimeRewindSystem.Instance.StartRewind();
+[SerializeField] RewindableObject[] rewindables;
 
-TimeRewindSystem.Instance.RewindTo(secondsAgo: 3f);
+private TimeRewindSystem timeRewindSystem;
 
-TimeRewindSystem.Instance.StopRewind();
+void Awake()
+{
+    timeRewindSystem = new TimeRewindSystem(maxHistorySeconds: 5f, snapshotsPerSecond: 10);
+    foreach (var rewindable in rewindables)
+        rewindable.Bind(timeRewindSystem);
+}
+
+void Update()
+{
+    timeRewindSystem.Tick(Time.deltaTime);
+}
+
+timeRewindSystem.StartRewind();
+
+timeRewindSystem.RewindTo(secondsAgo: 3f);
+
+timeRewindSystem.StopRewind();
 ```
 
 ### 4. Skill Example
@@ -54,10 +70,11 @@ TimeRewindSystem.Instance.StopRewind();
 public class TimeRewindSkill : MonoBehaviour
 {
     [SerializeField] float rewindSeconds = 3f;
+    private readonly TimeRewindSystem timeRewindSystem = new();
 
     IEnumerator UseSkill()
     {
-        var system = TimeRewindSystem.Instance;
+        var system = timeRewindSystem;
         system.StartRewind();
 
         float t = 0f;
@@ -78,8 +95,12 @@ public class TimeRewindSkill : MonoBehaviour
 ### TimeRewindSystem
 
 ```csharp
+TimeRewindSystem(float maxHistorySeconds = 5f, int snapshotsPerSecond = 10)
+
 void Register(IRewindable target)
 void Unregister(IRewindable target)
+
+void Tick(float deltaTime)
 
 void StartRewind()
 void StopRewind()
@@ -101,12 +122,14 @@ Use `IRewindable` directly when you need to capture custom state.
 ```csharp
 public class EnemyAI : MonoBehaviour, IRewindable
 {
+    private TimeRewindSystem timeRewindSystem;
+
     private float hp;
     private Vector3 position;
     private AIState state;
 
-    private void OnEnable()  => TimeRewindSystem.Instance?.Register(this);
-    private void OnDisable() => TimeRewindSystem.Instance?.Unregister(this);
+    private void OnEnable()  => timeRewindSystem?.Register(this);
+    private void OnDisable() => timeRewindSystem?.Unregister(this);
 
     public object CaptureState()
     {

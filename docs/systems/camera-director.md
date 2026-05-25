@@ -5,7 +5,7 @@
 ## 구조
 
 ```
-CameraDirector (MonoBehaviour 싱글턴)
+CameraDirector (MonoBehaviour, 코루틴 실행용)
   — Camera 참조, 액션 시퀀스 실행
 
 CameraAction (abstract, [Serializable])
@@ -26,7 +26,9 @@ CameraAction (abstract, [Serializable])
 ```csharp
 using AchieveOnePark.AchUtils.Camera;
 
-CameraDirector.Instance.Play(new ShakeCameraAction
+[SerializeField] CameraDirector cameraDirector;
+
+cameraDirector.Play(new ShakeCameraAction
 {
     Duration  = 0.5f,
     Intensity = 0.3f,
@@ -37,7 +39,9 @@ CameraDirector.Instance.Play(new ShakeCameraAction
 ### 3. 시퀀스 재생
 
 ```csharp
-CameraDirector.Instance.PlaySequence(new CameraAction[]
+[SerializeField] CameraDirector cameraDirector;
+
+cameraDirector.PlaySequence(new CameraAction[]
 {
     new MoveCameraAction
     {
@@ -58,7 +62,7 @@ CameraDirector.Instance.PlaySequence(new CameraAction[]
 
 ```csharp
 // 접근
-static CameraDirector Instance
+CameraDirector cameraDirector
 
 // 참조 카메라 (없으면 Camera.main)
 Camera Camera
@@ -108,14 +112,14 @@ float Duration
 ## 완료 콜백
 
 ```csharp
-CameraDirector.Instance.OnSequenceCompleted += () =>
+cameraDirector.OnSequenceCompleted += () =>
 {
     // 카메라 연출 완료 후 게임플레이 재개
     player.EnableControl();
     UI.ShowBossHealthBar();
 };
 
-CameraDirector.Instance.PlaySequence(bossIntroActions);
+cameraDirector.PlaySequence(bossIntroActions);
 ```
 
 ## 커스텀 액션 만들기
