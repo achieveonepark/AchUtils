@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Tutorial
+namespace AchUtils.Tutorial
 {
     public abstract class TutorialStep : ScriptableObject
     {

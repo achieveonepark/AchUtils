@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Spawn
+namespace AchUtils.Spawn
 {
     public class Spawner : MonoBehaviour
     {

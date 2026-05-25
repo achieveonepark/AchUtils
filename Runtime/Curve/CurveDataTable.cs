@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Curve
+namespace AchUtils.Curve
 {
     [CreateAssetMenu(menuName = "AchUtils/Curve/Curve Data Table", fileName = "NewCurveTable")]
     public class CurveDataTable : ScriptableObject

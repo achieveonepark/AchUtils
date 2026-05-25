@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Curve
+namespace AchUtils.Curve
 {
     [CreateAssetMenu(menuName = "AchUtils/Curve/Curve Data Asset", fileName = "NewCurveData")]
     public class CurveDataAsset : ScriptableObject

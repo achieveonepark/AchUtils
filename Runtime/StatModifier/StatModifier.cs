@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AchieveOnePark.AchUtils.StatModifier
+namespace AchUtils.StatModifier
 {
     public enum ModifierType
     {

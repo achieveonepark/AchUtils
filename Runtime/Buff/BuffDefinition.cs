@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Buff
+namespace AchUtils.Buff
 {
     [CreateAssetMenu(menuName = "AchUtils/Buff/Buff Definition", fileName = "NewBuff")]
     public class BuffDefinition : ScriptableObject

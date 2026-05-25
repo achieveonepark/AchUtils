@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Sequence
+namespace AchUtils.Sequence
 {
     [Serializable]
     public class SoundStep : SequenceStep
@@ -15,7 +15,8 @@ namespace AchieveOnePark.AchUtils.Sequence
         {
             if (Clip == null) yield break;
 
-            AudioSource.PlayClipAtPoint(Clip, Camera.main != null ? Camera.main.transform.position : Vector3.zero, Volume);
+            var position = runner != null ? runner.transform.position : Vector3.zero;
+            AudioSource.PlayClipAtPoint(Clip, position, Volume);
 
             if (WaitUntilFinished)
                 yield return new WaitForSeconds(Clip.length);

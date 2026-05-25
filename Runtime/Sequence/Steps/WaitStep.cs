@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Sequence
+namespace AchUtils.Sequence
 {
     [Serializable]
     public class WaitStep : SequenceStep

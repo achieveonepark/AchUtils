@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Buff
+namespace AchUtils.Buff
 {
     [Serializable]
     public abstract class BuffEffect

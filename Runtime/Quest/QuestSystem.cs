@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AchieveOnePark.AchUtils.Quest
+namespace AchUtils.Quest
 {
     public class QuestSystem
     {

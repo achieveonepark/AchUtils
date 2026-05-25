@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AchieveOnePark.AchUtils.Quest
+namespace AchUtils.Quest
 {
     [Serializable]
     public class KillQuestStep : QuestStep

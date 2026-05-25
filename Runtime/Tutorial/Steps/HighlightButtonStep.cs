@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace AchieveOnePark.AchUtils.Tutorial
+namespace AchUtils.Tutorial
 {
     [CreateAssetMenu(menuName = "AchUtils/Tutorial/Steps/Highlight Button", fileName = "HighlightButtonStep")]
     public class HighlightButtonStep : TutorialStep

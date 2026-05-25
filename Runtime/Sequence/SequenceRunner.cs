@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AchieveOnePark.AchUtils.Sequence
+namespace AchUtils.Sequence
 {
     public class SequenceRunner : MonoBehaviour
     {

@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace AchieveOnePark.AchUtils.Sequence
+namespace AchUtils.Sequence
 {
     [Serializable]
     public class CallbackStep : SequenceStep

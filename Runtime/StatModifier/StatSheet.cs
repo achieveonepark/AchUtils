@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AchieveOnePark.AchUtils.StatModifier
+namespace AchUtils.StatModifier
 {
     public class StatSheet
     {
