@@ -63,9 +63,6 @@ namespace AchieveOnePark.AchUtils.Tutorial
             IsRunning = false;
             _coroutine = null;
 
-            if (CurrentSequence.SaveProgress)
-                TutorialSystem.Instance.MarkCompleted(CurrentSequence.SequenceId);
-
             OnCompleted?.Invoke();
         }
     }

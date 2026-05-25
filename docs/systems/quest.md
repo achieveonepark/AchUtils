@@ -5,7 +5,7 @@
 ## 구조
 
 ```
-QuestSystem (MonoBehaviour 싱글턴)
+QuestSystem (순수 C# 인스턴스)
   — 활성 퀘스트 관리, 이벤트 라우팅
 
 QuestDefinition (ScriptableObject)
@@ -46,16 +46,20 @@ Rewards:
   [1] QuestReward { RewardId: "Exp",  Amount: 200 }
 ```
 
-### 2. 씬에 QuestSystem 추가
+### 2. QuestSystem 인스턴스 만들기
 
-`QuestSystem` 컴포넌트를 씬에 배치합니다.
+`QuestSystem`은 상태만 관리하는 순수 C# 클래스입니다. 퀘스트를 소유할 객체에서 직접 생성합니다.
 
 ### 3. 퀘스트 시작
 
 ```csharp
 using AchieveOnePark.AchUtils.Quest;
 
-var instance = QuestSystem.Instance.StartQuest(mainQuest01);
+private readonly QuestSystem questSystem = new();
+
+[SerializeField] QuestDefinition mainQuest01;
+
+var instance = questSystem.StartQuest(mainQuest01);
 
 instance.OnStepCompleted += step =>
     Debug.Log($"스텝 {step} 완료");
@@ -70,13 +74,13 @@ instance.OnQuestCompleted += () =>
 
 ```csharp
 // 몬스터 사망 시
-QuestSystem.Instance.Progress("Kill", "Slime");
+questSystem.Progress("Kill", "Slime");
 
 // NPC 대화 시
-QuestSystem.Instance.Progress("Talk", "GuardNPC");
+questSystem.Progress("Talk", "GuardNPC");
 
 // 아이템 획득 시
-QuestSystem.Instance.Progress("Collect", "SlimeGel");
+questSystem.Progress("Collect", "SlimeGel");
 ```
 
 ## 이벤트 키 규칙
@@ -141,7 +145,7 @@ public class ReachLocationStep : QuestStep
 
 ```csharp
 // 특정 위치 도달 시
-QuestSystem.Instance.Progress("ReachLocation", "DungeonEntrance");
+questSystem.Progress("ReachLocation", "DungeonEntrance");
 ```
 
 ## 중복 시작 방지
@@ -150,6 +154,6 @@ QuestSystem.Instance.Progress("ReachLocation", "DungeonEntrance");
 
 ```csharp
 // 두 번 호출해도 인스턴스는 하나
-QuestSystem.Instance.StartQuest(mainQuest01);
-QuestSystem.Instance.StartQuest(mainQuest01); // 무시됨
+questSystem.StartQuest(mainQuest01);
+questSystem.StartQuest(mainQuest01); // 무시됨
 ```

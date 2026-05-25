@@ -14,7 +14,6 @@ const koSidebar = [
     items: [
       { text: '튜토리얼', link: '/systems/tutorial' },
       { text: '조건 그래프', link: '/systems/condition-graph' },
-      { text: '레드닷', link: '/systems/red-dot' },
     ],
   },
   {
@@ -73,7 +72,6 @@ const enSidebar = [
     items: [
       { text: 'Tutorial', link: '/en/systems/tutorial' },
       { text: 'Condition Graph', link: '/en/systems/condition-graph' },
-      { text: 'Red Dot', link: '/en/systems/red-dot' },
     ],
   },
   {
@@ -138,8 +136,9 @@ const enSearch = {
 
 export default defineConfig({
   title: 'AchUtils',
-  description: 'AchUtils — 13 reusable systems for Unity game development',
+  description: 'AchUtils — 12 reusable systems for Unity game development',
   base: '/AchUtils/',
+  lang: 'ko-KR',
   appearance: 'dark',
   cleanUrls: true,
 
@@ -160,7 +159,7 @@ export default defineConfig({
 
     footer: {
       message: 'MIT License',
-      copyright: 'Copyright © 2024 AchieveOnePark',
+      copyright: 'Copyright © 2026 AchieveOnePark',
     },
   },
 
@@ -169,7 +168,7 @@ export default defineConfig({
       label: '한국어',
       lang: 'ko-KR',
       title: 'AchUtils',
-      description: 'AchUtils — Unity 게임 개발을 위한 재사용 가능한 13가지 시스템',
+      description: 'AchUtils — Unity 게임 개발을 위한 재사용 가능한 12가지 시스템',
       themeConfig: {
         nav: [
           { text: '빠른 시작', link: '/guide/getting-started', activeMatch: '/guide/' },
@@ -218,7 +217,7 @@ export default defineConfig({
       lang: 'en-US',
       link: '/en/',
       title: 'AchUtils',
-      description: 'AchUtils — 13 reusable systems for Unity game development',
+      description: 'AchUtils — 12 reusable systems for Unity game development',
       themeConfig: {
         nav: [
           { text: 'Quick Start', link: '/en/guide/getting-started', activeMatch: '/en/guide/' },

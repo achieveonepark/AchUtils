@@ -5,11 +5,11 @@
 ## 구조
 
 ```
-ActionRecorder (MonoBehaviour)
+ActionRecorder (순수 C# 인스턴스)
   — 입력 발생 시 InputFrame을 ReplayData에 추가
 
-ActionPlayer (MonoBehaviour)
-  — ReplayData를 타임스탬프 기준으로 재생, OnFrame 이벤트 발행
+ActionPlayer (순수 C# 인스턴스)
+  — Tick(deltaTime)으로 ReplayData를 재생하고 OnFrame 이벤트 발행
 
 InputFrame (struct)
   — Timestamp, ActionKey, Axis, IsPressed
@@ -25,7 +25,7 @@ ReplayData (class)
 ```csharp
 using AchieveOnePark.AchUtils.ActionReplay;
 
-[SerializeField] ActionRecorder recorder;
+private readonly ActionRecorder recorder = new();
 
 // 기록 시작
 recorder.StartRecording();
@@ -50,7 +50,12 @@ SaveReplay(data);   // 직렬화해서 파일/서버에 저장
 ### 2. 재생
 
 ```csharp
-[SerializeField] ActionPlayer player;
+private readonly ActionPlayer player = new();
+
+void Update()
+{
+    player.Tick(Time.deltaTime);
+}
 
 void PlayGhost(ReplayData data)
 {
@@ -99,6 +104,7 @@ bool IsPlaying
 
 void Play(ReplayData data, float speed = 1f)
 void Stop()
+void Tick(float deltaTime)
 
 event Action<InputFrame> OnFrame       // 매 프레임 발행
 event Action             OnCompleted

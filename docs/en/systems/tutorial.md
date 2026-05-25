@@ -5,8 +5,8 @@ Build in-game tutorials as **ScriptableObject-based steps**. Designers can chang
 ## Structure
 
 ```text
-TutorialSystem          - MonoBehaviour singleton. Saves and restores completed tutorials.
-  └── TutorialRunner    - Runs tutorial steps as coroutines. Added automatically.
+TutorialSystem          - Pure C# instance. Saves and restores completed tutorials.
+  └── TutorialRunner    - MonoBehaviour that runs tutorial steps as coroutines.
 
 TutorialSequence        - ScriptableObject. Step list and skip settings.
   └── TutorialStep[]    - ScriptableObject base class for concrete tutorial steps.
@@ -23,11 +23,11 @@ TutorialSequence        - ScriptableObject. Step list and skip settings.
 
 ## Quick Start
 
-### 1. Add TutorialSystem to the Scene
+### 1. Add TutorialRunner to the Scene
 
 ```csharp
-// Place a GameObject with TutorialSystem in the scene.
-// TutorialRunner is added automatically.
+// Only TutorialRunner needs to live on a GameObject because it runs coroutines.
+// TutorialSystem is created from code.
 ```
 
 ### 2. Create a TutorialSequence Asset
@@ -48,11 +48,26 @@ Steps:
 ### 3. Start the Tutorial
 
 ```csharp
+[SerializeField] TutorialRunner tutorialRunner;
+[SerializeField] TutorialSequence gachaSequence;
+
+private TutorialSystem tutorialSystem;
+
+void Awake()
+{
+    tutorialSystem = new TutorialSystem(tutorialRunner);
+}
+
+void OnDestroy()
+{
+    tutorialSystem.Dispose();
+}
+
 // Completed tutorials are skipped automatically.
-TutorialSystem.Instance.StartTutorial(gachaSequence);
+tutorialSystem.StartTutorial(gachaSequence);
 
 // Force replay, ignoring completion state.
-TutorialSystem.Instance.StartTutorialForce(gachaSequence);
+tutorialSystem.StartTutorialForce(gachaSequence);
 ```
 
 ### 4. Trigger Player Actions
@@ -62,7 +77,7 @@ Call `TriggerAction` from button handlers or gameplay events.
 ```csharp
 public void OnGachaButtonClicked()
 {
-    TutorialSystem.Instance.TriggerAction("GachaClick");
+    tutorialSystem.TriggerAction("GachaClick");
     // Continue normal game logic...
 }
 ```
@@ -72,6 +87,8 @@ public void OnGachaButtonClicked()
 ### TutorialSystem
 
 ```csharp
+TutorialSystem(TutorialRunner runner, bool loadOnCreate = true)
+
 void StartTutorial(TutorialSequence sequence)
 void StartTutorialForce(TutorialSequence sequence)
 void Skip()
@@ -80,6 +97,7 @@ bool IsCompleted(string sequenceId)
 void Save()
 void Load()
 void ResetAll()
+void Dispose()
 ```
 
 ### TutorialRunner

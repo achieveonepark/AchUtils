@@ -5,7 +5,7 @@ Configure **weighted random spawning**, alive limits, intervals, and spawn radiu
 ## Structure
 
 ```text
-SpawnSystem (MonoBehaviour singleton)
+SpawnSystem (pure C# instance)
   - Registers and controls all Spawner instances in the scene
 
 SpawnGroup (ScriptableObject)
@@ -60,9 +60,18 @@ spawner.OnDespawned += obj => Debug.Log($"{obj.name} despawned");
 ### 4. Control All Spawners
 
 ```csharp
-SpawnSystem.Instance.StartAll();
-SpawnSystem.Instance.StopAll();
-SpawnSystem.Instance.DespawnAll();
+[SerializeField] Spawner[] spawners;
+
+private SpawnSystem spawnSystem;
+
+void Awake()
+{
+    spawnSystem = new SpawnSystem(spawners);
+}
+
+spawnSystem.StartAll();
+spawnSystem.StopAll();
+spawnSystem.DespawnAll();
 ```
 
 ## API
@@ -84,6 +93,9 @@ event Action<GameObject> OnDespawned
 ### SpawnSystem
 
 ```csharp
+SpawnSystem()
+SpawnSystem(IEnumerable<Spawner> spawners)
+
 void RegisterSpawner(Spawner spawner)
 void UnregisterSpawner(Spawner spawner)
 

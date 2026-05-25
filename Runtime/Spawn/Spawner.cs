@@ -12,6 +12,7 @@ namespace AchieveOnePark.AchUtils.Spawn
 
         private readonly List<GameObject> _alive = new();
         private Coroutine _coroutine;
+        private SpawnSystem _spawnSystem;
 
         public bool IsSpawning { get; private set; }
         public IReadOnlyList<GameObject> AliveObjects => _alive;
@@ -19,15 +20,20 @@ namespace AchieveOnePark.AchUtils.Spawn
         public event Action<GameObject> OnSpawned;
         public event Action<GameObject> OnDespawned;
 
+        private void OnEnable()
+        {
+            _spawnSystem?.RegisterSpawner(this);
+        }
+
         private void Start()
         {
-            SpawnSystem.Instance?.RegisterSpawner(this);
             if (_autoStart) StartSpawning();
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
-            SpawnSystem.Instance?.UnregisterSpawner(this);
+            _spawnSystem?.UnregisterSpawner(this);
+            StopSpawning();
         }
 
         public void StartSpawning()
@@ -88,6 +94,16 @@ namespace AchieveOnePark.AchUtils.Spawn
         private void CleanDead()
         {
             _alive.RemoveAll(o => o == null);
+        }
+
+        public void Bind(SpawnSystem spawnSystem)
+        {
+            if (_spawnSystem == spawnSystem) return;
+
+            _spawnSystem?.UnregisterSpawner(this);
+            _spawnSystem = spawnSystem;
+            if (isActiveAndEnabled)
+                _spawnSystem?.RegisterSpawner(this);
         }
     }
 }

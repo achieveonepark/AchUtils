@@ -5,7 +5,7 @@ A general quest pipeline built from **Kill -> Talk -> Collect** steps. It tracks
 ## Structure
 
 ```text
-QuestSystem (MonoBehaviour singleton)
+QuestSystem (pure C# instance)
   - Manages active quests and routes events
 
 QuestDefinition (ScriptableObject)
@@ -46,16 +46,20 @@ Rewards:
   [1] QuestReward { RewardId: "Exp",  Amount: 200 }
 ```
 
-### 2. Add QuestSystem to the Scene
+### 2. Create a QuestSystem Instance
 
-Place a `QuestSystem` component in the scene.
+`QuestSystem` is a pure C# class that only owns quest state. Create it from the object that owns the quest flow.
 
 ### 3. Start a Quest
 
 ```csharp
 using AchieveOnePark.AchUtils.Quest;
 
-var instance = QuestSystem.Instance.StartQuest(mainQuest01);
+private readonly QuestSystem questSystem = new();
+
+[SerializeField] QuestDefinition mainQuest01;
+
+var instance = questSystem.StartQuest(mainQuest01);
 
 instance.OnStepCompleted += step =>
     Debug.Log($"Step {step} completed");
@@ -69,9 +73,9 @@ instance.OnQuestCompleted += () =>
 Call `Progress` from anywhere in the game. Every active quest receives the event.
 
 ```csharp
-QuestSystem.Instance.Progress("Kill", "Slime");
-QuestSystem.Instance.Progress("Talk", "GuardNPC");
-QuestSystem.Instance.Progress("Collect", "SlimeGel");
+questSystem.Progress("Kill", "Slime");
+questSystem.Progress("Talk", "GuardNPC");
+questSystem.Progress("Collect", "SlimeGel");
 ```
 
 ## Event Key Rules
@@ -135,7 +139,7 @@ public class ReachLocationStep : QuestStep
 ```
 
 ```csharp
-QuestSystem.Instance.Progress("ReachLocation", "DungeonEntrance");
+questSystem.Progress("ReachLocation", "DungeonEntrance");
 ```
 
 ## Duplicate Start Guard
@@ -143,6 +147,6 @@ QuestSystem.Instance.Progress("ReachLocation", "DungeonEntrance");
 The same `QuestId` cannot be started twice. Completed quests are not started again.
 
 ```csharp
-QuestSystem.Instance.StartQuest(mainQuest01);
-QuestSystem.Instance.StartQuest(mainQuest01); // Ignored
+questSystem.StartQuest(mainQuest01);
+questSystem.StartQuest(mainQuest01); // Ignored
 ```

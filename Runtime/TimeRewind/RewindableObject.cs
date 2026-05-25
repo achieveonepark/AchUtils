@@ -4,8 +4,27 @@ namespace AchieveOnePark.AchUtils.TimeRewind
 {
     public class RewindableObject : MonoBehaviour, IRewindable
     {
-        private void OnEnable() => TimeRewindSystem.Instance?.Register(this);
-        private void OnDisable() => TimeRewindSystem.Instance?.Unregister(this);
+        private TimeRewindSystem _rewindSystem;
+
+        private void OnEnable()
+        {
+            _rewindSystem?.Register(this);
+        }
+
+        private void OnDisable()
+        {
+            _rewindSystem?.Unregister(this);
+        }
+
+        public void Bind(TimeRewindSystem rewindSystem)
+        {
+            if (_rewindSystem == rewindSystem) return;
+
+            _rewindSystem?.Unregister(this);
+            _rewindSystem = rewindSystem;
+            if (isActiveAndEnabled)
+                _rewindSystem?.Register(this);
+        }
 
         public virtual object CaptureState()
         {

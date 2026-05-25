@@ -1,23 +1,27 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace AchieveOnePark.AchUtils.Spawn
 {
-    public class SpawnSystem : MonoBehaviour
+    public class SpawnSystem
     {
-        public static SpawnSystem Instance { get; private set; }
-
         private readonly List<Spawner> _spawners = new();
 
-        private void Awake()
+        public SpawnSystem()
         {
-            if (Instance != null && Instance != this) { Destroy(gameObject); return; }
-            Instance = this;
+        }
+
+        public SpawnSystem(IEnumerable<Spawner> spawners)
+        {
+            if (spawners == null) return;
+
+            foreach (var spawner in spawners)
+                spawner?.Bind(this);
         }
 
         public void RegisterSpawner(Spawner spawner)
         {
-            if (!_spawners.Contains(spawner)) _spawners.Add(spawner);
+            if (spawner != null && !_spawners.Contains(spawner))
+                _spawners.Add(spawner);
         }
 
         public void UnregisterSpawner(Spawner spawner) => _spawners.Remove(spawner);
