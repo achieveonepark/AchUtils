@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AchieveOnePark.AchUtils.Tutorial
 {
-    [CreateAssetMenu(menuName = "SS/Tutorial/Steps/Wait For Action", fileName = "WaitForActionStep")]
+    [CreateAssetMenu(menuName = "AchUtils/Tutorial/Steps/Wait For Action", fileName = "WaitForActionStep")]
     public class WaitForActionStep : TutorialStep
     {
         public string ActionKey;

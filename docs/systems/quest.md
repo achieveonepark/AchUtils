@@ -25,7 +25,7 @@ QuestStep (abstract, [Serializable])
 
 ### 1. QuestDefinition 에셋 만들기
 
-**Create → SS/Quest/Quest Definition**
+**Create → AchUtils/Quest/Quest Definition**
 
 ```
 QuestId : "MainQuest_01"

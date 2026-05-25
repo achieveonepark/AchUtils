@@ -1,0 +1,130 @@
+# Spawn System
+
+Configure **weighted random spawning**, alive limits, intervals, and spawn radius with `SpawnGroup` ScriptableObject assets. Multiple `Spawner` instances can run independently in the same scene.
+
+## Structure
+
+```text
+SpawnSystem (MonoBehaviour singleton)
+  - Registers and controls all Spawner instances in the scene
+
+SpawnGroup (ScriptableObject)
+  - Entry list (Prefab + Weight + Min/MaxCount)
+  - SpawnInterval, MaxAlive, SpawnRadius
+
+Spawner (MonoBehaviour)
+  - Instantiates and despawns objects using a SpawnGroup
+```
+
+## Quick Start
+
+### 1. Create a SpawnGroup
+
+**Create -> AchUtils/Spawn/Spawn Group**
+
+```text
+SpawnInterval : 5
+MaxAlive      : 10
+SpawnRadius   : 8
+
+Entries:
+  [0] Prefab: SlimeBlue    Weight: 70   Min: 1  Max: 2
+  [1] Prefab: SlimeRed     Weight: 25   Min: 1  Max: 1
+  [2] Prefab: SlimeBoss    Weight:  5   Min: 1  Max: 1
+```
+
+### 2. Place a Spawner
+
+Create an empty scene object and add `Spawner`.
+
+| Field | Description |
+|-------|-------------|
+| `Group` | SpawnGroup asset |
+| `Auto Start` | Start spawning automatically on scene start |
+
+### 3. Control Spawning
+
+```csharp
+using AchieveOnePark.AchUtils.Spawn;
+
+[SerializeField] Spawner spawner;
+
+spawner.StartSpawning();
+spawner.StopSpawning();
+spawner.DespawnAll();
+
+spawner.OnSpawned   += obj => Debug.Log($"{obj.name} spawned");
+spawner.OnDespawned += obj => Debug.Log($"{obj.name} despawned");
+```
+
+### 4. Control All Spawners
+
+```csharp
+SpawnSystem.Instance.StartAll();
+SpawnSystem.Instance.StopAll();
+SpawnSystem.Instance.DespawnAll();
+```
+
+## API
+
+### Spawner
+
+```csharp
+bool IsSpawning
+IReadOnlyList<GameObject> AliveObjects
+
+void StartSpawning()
+void StopSpawning()
+void DespawnAll()
+
+event Action<GameObject> OnSpawned
+event Action<GameObject> OnDespawned
+```
+
+### SpawnSystem
+
+```csharp
+void RegisterSpawner(Spawner spawner)
+void UnregisterSpawner(Spawner spawner)
+
+void StartAll()
+void StopAll()
+void DespawnAll()
+
+IReadOnlyList<Spawner> Spawners
+```
+
+### SpawnGroup.Entry
+
+```csharp
+GameObject Prefab
+float      Weight
+int        MinCount
+int        MaxCount
+```
+
+## Spawn Logic
+
+1. Run every `SpawnInterval`.
+2. If alive count is below `MaxAlive`, select an entry with `PickRandom()`.
+3. Instantiate `Random.Range(Min, Max + 1)` objects.
+4. Place objects within `SpawnRadius` using `Random.insideUnitCircle`.
+
+```csharp
+SpawnGroup.Entry entry = spawnGroup.PickRandom();
+var obj = Instantiate(entry.Prefab, spawnPos, Quaternion.identity);
+```
+
+## Multiple Spawners
+
+```text
+DungeonSpawner    -> SlimeGroup     (5 alive, 3s)
+BossRoomSpawner   -> EliteGroup     (2 alive, 10s)
+TreasureSpawner   -> ChestGroup     (1 alive, 30s)
+```
+
+Each `Spawner` is independent and can use different groups and settings.
+
+::: tip Object pooling
+For high-frequency spawns, connect this system to an object pool through `Spawner.OnSpawned` and `OnDespawned`.
+:::

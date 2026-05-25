@@ -20,7 +20,7 @@ ConditionGraph (ScriptableObject)
 
 ### 1. ConditionGraph 에셋 만들기
 
-**Create → SS/Condition/Condition Graph**
+**Create → AchUtils/Condition/Condition Graph**
 
 인스펙터에서 `Root`에 `[+]` 버튼으로 노드를 추가합니다.
 

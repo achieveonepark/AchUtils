@@ -30,7 +30,7 @@ SequenceStep (abstract, [Serializable])
 
 ### 방법 A — SequenceAsset (에디터 설정)
 
-**Create → SS/Sequence/Sequence Asset**
+**Create → AchUtils/Sequence/Sequence Asset**
 
 인스펙터에서 스텝 추가 후 실행:
 

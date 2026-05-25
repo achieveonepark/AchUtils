@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AchieveOnePark.AchUtils.Curve
 {
-    [CreateAssetMenu(menuName = "SS/Curve/Curve Data Table", fileName = "NewCurveTable")]
+    [CreateAssetMenu(menuName = "AchUtils/Curve/Curve Data Table", fileName = "NewCurveTable")]
     public class CurveDataTable : ScriptableObject
     {
         [Serializable]

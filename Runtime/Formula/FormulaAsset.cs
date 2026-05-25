@@ -2,7 +2,7 @@
 
 namespace AchieveOnePark.AchUtils.Formula
 {
-    [CreateAssetMenu(menuName = "SS/Formula/Formula Asset", fileName = "NewFormula")]
+    [CreateAssetMenu(menuName = "AchUtils/Formula/Formula Asset", fileName = "NewFormula")]
     public class FormulaAsset : ScriptableObject
     {
         [TextArea(3, 8)] public string Expression;

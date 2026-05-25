@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AchieveOnePark.AchUtils.Tutorial
 {
-    [CreateAssetMenu(menuName = "SS/Tutorial/Tutorial Sequence", fileName = "NewTutorialSequence")]
+    [CreateAssetMenu(menuName = "AchUtils/Tutorial/Tutorial Sequence", fileName = "NewTutorialSequence")]
     public class TutorialSequence : ScriptableObject
     {
         public string SequenceId;

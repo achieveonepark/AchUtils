@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AchieveOnePark.AchUtils.Tutorial
 {
-    [CreateAssetMenu(menuName = "SS/Tutorial/Steps/Delay", fileName = "DelayStep")]
+    [CreateAssetMenu(menuName = "AchUtils/Tutorial/Steps/Delay", fileName = "DelayStep")]
     public class DelayStep : TutorialStep
     {
         public float Duration = 1f;

@@ -2,7 +2,7 @@
 
 namespace AchieveOnePark.AchUtils.Condition
 {
-    [CreateAssetMenu(menuName = "SS/Condition/Condition Graph", fileName = "NewConditionGraph")]
+    [CreateAssetMenu(menuName = "AchUtils/Condition/Condition Graph", fileName = "NewConditionGraph")]
     public class ConditionGraph : ScriptableObject
     {
         [SerializeReference] public ConditionNode Root;
