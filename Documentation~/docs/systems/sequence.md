@@ -1,0 +1,168 @@
+﻿# 시퀀스 시스템
+
+`await/Coroutine` 지옥 없이 게임 연출 흐름을 **선언적 스텝 목록**으로 구성합니다.
+
+## 구조
+
+```
+SequenceAsset (ScriptableObject)
+  [SerializeReference] List<SequenceStep>
+
+SequenceRunner (MonoBehaviour)
+  — 스텝을 순서대로 코루틴 실행
+
+SequenceStep (abstract, [Serializable])
+  — 커스텀 스텝을 상속해서 구현
+```
+
+## 기본 제공 스텝
+
+| 스텝 | 설명 |
+|------|------|
+| `WaitStep` | N초 대기 |
+| `MoveStep` | Transform을 목적지로 이동 (이징 지원) |
+| `FadeStep` | CanvasGroup 알파 애니메이션 |
+| `ScaleStep` | Transform 스케일 애니메이션 |
+| `SoundStep` | AudioClip 재생 |
+| `CallbackStep` | UnityEvent 호출 |
+
+## 빠른 시작
+
+### 방법 A — SequenceAsset (에디터 설정)
+
+**Create → AchUtils/Sequence/Sequence Asset**
+
+인스펙터에서 스텝 추가 후 실행:
+
+```csharp
+using AchUtils.Sequence;
+
+[SerializeField] SequenceAsset introSequence;
+[SerializeField] SequenceRunner runner;
+
+void PlayIntro()
+{
+    runner.Run(introSequence);
+}
+```
+
+### 방법 B — 코드로 구성
+
+```csharp
+var steps = new List<SequenceStep>
+{
+    new FadeStep  { Target = overlay,    TargetAlpha = 1f, Duration = 0.3f },
+    new WaitStep  { Duration = 0.5f },
+    new MoveStep  { Target = boss,       Destination = centerPos, Duration = 1f },
+    new ScaleStep { Target = boss,       TargetScale = Vector3.one * 1.5f, Duration = 0.3f },
+    new SoundStep { Clip = bossRoar },
+    new FadeStep  { Target = overlay,    TargetAlpha = 0f, Duration = 0.5f },
+};
+
+runner.Run(steps);
+```
+
+## API
+
+### SequenceRunner
+
+```csharp
+// 실행
+void Run(SequenceAsset asset)
+void Run(IEnumerable<SequenceStep> steps)
+void Stop()
+
+bool IsRunning
+
+event Action OnCompleted
+event Action OnStopped
+```
+
+### MoveStep
+
+```csharp
+Transform       Target
+Vector3         Destination
+float           Duration        // 초
+AnimationCurve  Ease            // 기본: EaseInOut
+bool            UseLocalSpace   // true면 localPosition 사용
+```
+
+### FadeStep
+
+```csharp
+CanvasGroup     Target
+float           TargetAlpha     // 0~1
+float           Duration
+AnimationCurve  Ease
+```
+
+### ScaleStep
+
+```csharp
+Transform       Target
+Vector3         TargetScale
+float           Duration
+AnimationCurve  Ease
+```
+
+### SoundStep
+
+```csharp
+AudioClip       Clip
+float           Volume              // 0~1
+bool            WaitUntilFinished   // true면 클립 재생 완료 대기
+```
+
+`SoundStep`은 `Camera.main`에 의존하지 않고 `SequenceRunner` 위치에서 클립을 재생합니다.
+
+### CallbackStep
+
+```csharp
+UnityEvent      OnExecute           // 인스펙터에서 연결
+```
+
+## 커스텀 스텝 만들기
+
+```csharp
+[Serializable]
+public class ShowPanelStep : SequenceStep
+{
+    public GameObject Panel;
+    public float HoldDuration = 2f;
+
+    public override IEnumerator Execute(SequenceRunner runner)
+    {
+        Panel.SetActive(true);
+        yield return new WaitForSeconds(HoldDuration);
+        Panel.SetActive(false);
+    }
+}
+```
+
+`[Serializable]`만 붙이면 `[SerializeReference]` 필드에서 인스펙터 선택이 가능합니다.
+
+## 완료 이벤트
+
+```csharp
+runner.OnCompleted += () =>
+{
+    Debug.Log("인트로 연출 완료");
+    StartGameplay();
+};
+
+runner.Run(introSequence);
+```
+
+## 연출 예시 — 보스 등장
+
+```
+FadeStep     오버레이 Fade In  (0.3s)
+WaitStep     0.5s 대기
+MoveCameraAction  보스 방향 이동  ← CameraDirector와 병행 가능
+MoveStep     보스 등장 이동  (1.5s, EaseOut)
+ScaleStep    보스 스케일 업  (0.5s, Bounce)
+SoundStep    보스 포효
+FadeStep     오버레이 Fade Out (0.5s)
+CallbackStep UI 표시 이벤트
+```

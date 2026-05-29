@@ -1,0 +1,89 @@
+{
+  "home.eyebrow": {
+    "message": "Unity Game Systems"
+  },
+  "home.tagline": {
+    "message": "12 reusable systems that remove repetitive Unity game-development work. Each system can be used as an independent instance."
+  },
+  "home.cta.primary": {
+    "message": "Quick Start"
+  },
+  "home.cta.secondary": {
+    "message": "Browse Systems"
+  },
+  "home.meta.desc": {
+    "message": "12 reusable systems for Unity game development."
+  },
+  "home.feature.tutorial.title": {
+    "message": "Tutorial System"
+  },
+  "home.feature.tutorial.desc": {
+    "message": "ScriptableObject-based tutorials with button highlighting, waits, dialogue, skip support, and saved completion state."
+  },
+  "home.feature.conditionGraph.title": {
+    "message": "Condition Graph"
+  },
+  "home.feature.conditionGraph.desc": {
+    "message": "Define complex game conditions as AND / OR / NOT data trees for shops, events, achievements, and UI gates."
+  },
+  "home.feature.statModifier.title": {
+    "message": "Stat Modifier"
+  },
+  "home.feature.statModifier.desc": {
+    "message": "Calculate final stat values with Flat, PercentAdd, and PercentMultiply modifiers managed by source."
+  },
+  "home.feature.formula.title": {
+    "message": "Formula System"
+  },
+  "home.feature.formula.desc": {
+    "message": "Store balance formulas in assets so designers can edit expressions like Attack * SkillMultiplier - Defense."
+  },
+  "home.feature.curveData.title": {
+    "message": "Curve Data"
+  },
+  "home.feature.curveData.desc": {
+    "message": "Use AnimationCurve assets for level-based HP, EXP, rewards, and other balance tables."
+  },
+  "home.feature.sequence.title": {
+    "message": "Sequence System"
+  },
+  "home.feature.sequence.desc": {
+    "message": "Build presentation flows with Move, Wait, Fade, Scale, Sound, and Callback steps instead of nested coroutines."
+  },
+  "home.feature.cameraDirector.title": {
+    "message": "Camera Director"
+  },
+  "home.feature.cameraDirector.desc": {
+    "message": "Chain Zoom, Shake, Move, and Wait camera actions around gameplay events."
+  },
+  "home.feature.buffDebuff.title": {
+    "message": "Buff / Debuff"
+  },
+  "home.feature.buffDebuff.desc": {
+    "message": "Manage duration, stacks, ticks, and custom effects through ScriptableObject definitions."
+  },
+  "home.feature.quest.title": {
+    "message": "Quest System"
+  },
+  "home.feature.quest.desc": {
+    "message": "Compose Kill, Talk, and Collect steps into event-driven quest pipelines."
+  },
+  "home.feature.spawn.title": {
+    "message": "Spawn System"
+  },
+  "home.feature.spawn.desc": {
+    "message": "Configure weighted random spawns, alive limits, intervals, and radii with SpawnGroup assets."
+  },
+  "home.feature.actionReplay.title": {
+    "message": "Action Replay"
+  },
+  "home.feature.actionReplay.desc": {
+    "message": "Record input frames with timestamps and replay them at different speeds for ghosts, QA, or highlights."
+  },
+  "home.feature.timeRewind.title": {
+    "message": "Time Rewind"
+  },
+  "home.feature.timeRewind.desc": {
+    "message": "Capture snapshots from any IRewindable object and restore the world to a previous point in time."
+  }
+}
