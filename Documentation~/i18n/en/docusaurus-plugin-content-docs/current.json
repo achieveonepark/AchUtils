@@ -1,0 +1,27 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.guide.category.시작하기": {
+    "message": "Start"
+  },
+  "sidebar.guide.category.게임 플로우": {
+    "message": "Game Flow"
+  },
+  "sidebar.guide.category.데이터 / 밸런스": {
+    "message": "Data / Balance"
+  },
+  "sidebar.guide.category.연출": {
+    "message": "Presentation"
+  },
+  "sidebar.guide.category.게임플레이": {
+    "message": "Gameplay"
+  },
+  "sidebar.guide.category.고급": {
+    "message": "Advanced"
+  },
+  "sidebar.guide.category.릴리스": {
+    "message": "Release"
+  }
+}

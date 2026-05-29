@@ -1,6 +1,9 @@
 node_modules/
 Documentation~/.vitepress/cache/
 Documentation~/.vitepress/dist/
+Documentation~/.docusaurus/
+Documentation~/build/
+Documentation~/serve.*.log
 Documentation~/**/*.meta
 Documentation~.meta
 dist/
