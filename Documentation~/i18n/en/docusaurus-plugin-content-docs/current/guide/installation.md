@@ -26,11 +26,12 @@ You can also use **Package Manager -> Add package from disk** and select `Packag
 
 ## Verify
 
-The package is installed when `AchUtils.Runtime` appears in Unity's Assembly Browser.
+The package is installed when `AchUtils.Runtime` and `AchUtils.Extensions` appear in Unity's Assembly Browser.
 
 ```csharp
 using AchUtils.Tutorial;
 using AchUtils.Buff;
+using AchUtils;
 // Use only the systems you need.
 ```
 
@@ -41,7 +42,7 @@ using AchUtils.Buff;
 | Unity | 2021.3 LTS or newer |
 | .NET | Standard 2.1 |
 | Platforms | iOS, Android, PC, WebGL, Console |
-| External packages | None |
+| External packages | `com.unity.ugui`, `com.unity.nuget.newtonsoft-json` |
 
 ## Import the Sample
 

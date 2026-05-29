@@ -9,6 +9,7 @@ const sidebars: SidebarsConfig = {
       items: [
         'guide/getting-started',
         'guide/installation',
+        'guide/extensions/index',
       ],
     },
     {

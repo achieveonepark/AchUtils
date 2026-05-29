@@ -9,18 +9,20 @@
 - **독립 인스턴스** — 대부분의 런타임 시스템은 순수 C# 인스턴스로 생성하고, 코루틴·Transform·Instantiate가 필요한 부분만 컴포넌트 사용
 - **ScriptableObject 기반** — 데이터와 로직을 분리해 기획자가 직접 수정
 - **`[SerializeReference]` 폴리모피즘** — 노드, 이펙트, 스텝을 인스펙터에서 직접 추가
-- **Zero 외부 의존성** — 순수 Unity 런타임만 사용, 별도 패키지 불필요
+- **반복 코드 축소** — 런타임 시스템과 함께 컬렉션, Unity 오브젝트, UI, 문자열 확장 메서드 제공
 
 ## 어셈블리 정보
 
 | 항목 | 값 |
 |------|-----|
 | 패키지 이름 | `com.achieve.utils` |
-| 어셈블리 | `AchUtils.Runtime` |
+| 어셈블리 | `AchUtils.Runtime`, `AchUtils.Extensions` |
 | 루트 네임스페이스 | `AchUtils` |
 | 최소 Unity 버전 | **2021.3 LTS** |
+| 패키지 의존성 | `com.unity.ugui`, `com.unity.nuget.newtonsoft-json` |
 
 ## 다음 단계
 
 - [설치 →](/guide/installation)
+- [확장 메서드 →](/guide/extensions/)
 - [첫 번째 시스템 — 튜토리얼 →](/systems/tutorial)
