@@ -9,18 +9,20 @@ Tutorials, condition graphs, stat modifiers, and the other systems are designed 
 - **Independent instances** - Most runtime systems are pure C# instances; components are kept only where coroutines, Transform access, or Instantiate/Destroy are needed.
 - **ScriptableObject-first data** - Data and runtime logic are separated so designers can adjust assets without code changes.
 - **`[SerializeReference]` polymorphism** - Nodes, effects, and steps can be composed as inspector-editable data.
-- **No external runtime dependencies** - The package only depends on Unity runtime APIs.
+- **Less repeated code** - Runtime systems ship alongside collection, Unity object, UI, and string extension helpers.
 
 ## Assembly
 
 | Item | Value |
 |------|-------|
 | Package name | `com.achieve.utils` |
-| Assembly | `AchUtils.Runtime` |
+| Assembly | `AchUtils.Runtime`, `AchUtils.Extensions` |
 | Root namespace | `AchUtils` |
 | Minimum Unity version | **2021.3 LTS** |
+| Package dependencies | `com.unity.ugui`, `com.unity.nuget.newtonsoft-json` |
 
 ## Next Steps
 
 - [Installation](/guide/installation)
+- [Extension Methods](/guide/extensions/)
 - [First system: Tutorial](/systems/tutorial)
