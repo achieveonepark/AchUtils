@@ -1,0 +1,16 @@
+{
+  "pages": [
+    "action-replay",
+    "buff-debuff",
+    "camera-director",
+    "condition-graph",
+    "curve-data",
+    "formula",
+    "quest",
+    "sequence",
+    "spawn",
+    "stat-modifier",
+    "time-rewind",
+    "tutorial"
+  ]
+}
