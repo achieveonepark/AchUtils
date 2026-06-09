@@ -141,6 +141,8 @@ TreasureSpawner   -> ChestGroup     (1 alive, 30s)
 
 Each `Spawner` is independent and can use different groups and settings.
 
-::: tip Object pooling
+<Callout type="info" title="Object pooling">
+
 For high-frequency spawns, connect this system to an object pool through `Spawner.OnSpawned` and `OnDespawned`.
-:::
+
+</Callout>

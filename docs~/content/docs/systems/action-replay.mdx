@@ -155,6 +155,8 @@ ReplayData data = JsonUtility.FromJson<ReplayData>(json);
 | 버그 재현 | QA가 발견한 버그를 입력 기록으로 완벽 재현 |
 | 유튜브 클립 | 하이라이트 장면 자동 편집 |
 
-::: warning 네트워크 동기화
+<Callout type="warn" title="네트워크 동기화">
+
 멀티플레이어에서 리플레이를 동기화하려면 결정론적(Deterministic) 게임 루프가 필요합니다. 물리 기반 게임의 경우 `Physics.simulationMode`를 `Script`로 설정해 프레임 단위로 직접 제어하세요.
-:::
+
+</Callout>

@@ -174,7 +174,8 @@ public class EnemyAI : MonoBehaviour, IRewindable
 | 디버깅 | 버그 발생 직전 상태로 되돌아가 재현 |
 | 리플레이 미리보기 | 죽기 전 몇 초를 슬로우로 다시 보기 |
 
-::: warning 물리 엔진
+<Callout type="warn" title="물리 엔진">
+
 Rigidbody를 가진 오브젝트를 되감으면 물리 상태(velocity, angular velocity)도 함께 캡처해야 올바르게 복원됩니다. `RewindableObject`를 상속해 `CaptureState`를 오버라이드하세요.
 
 ```csharp
@@ -184,4 +185,5 @@ public override object CaptureState()
     return (base.CaptureState(), rb.velocity, rb.angularVelocity);
 }
 ```
-:::
+
+</Callout>

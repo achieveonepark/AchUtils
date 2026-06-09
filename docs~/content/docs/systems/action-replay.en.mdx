@@ -149,6 +149,8 @@ ReplayData data = JsonUtility.FromJson<ReplayData>(json);
 | Bug reproduction | Reproduce QA input exactly |
 | Video clips | Auto-cut highlight moments |
 
-::: warning Networking
+<Callout type="warn" title="Networking">
+
 Multiplayer replay sync requires a deterministic game loop. Physics-heavy games should drive physics manually, for example with `Physics.simulationMode = Script`.
-:::
+
+</Callout>
