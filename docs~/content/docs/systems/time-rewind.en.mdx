@@ -167,7 +167,8 @@ If you have many objects or a long history, reduce `SnapshotsPerSecond` or `MaxH
 | Debugging | Return to the state before a bug |
 | Replay preview | Show the last few seconds before death |
 
-::: warning Physics
+<Callout type="warn" title="Physics">
+
 Objects with Rigidbody need velocity and angular velocity captured too. Extend `RewindableObject` and override `CaptureState`.
 
 ```csharp
@@ -177,4 +178,5 @@ public override object CaptureState()
     return (base.CaptureState(), rb.velocity, rb.angularVelocity);
 }
 ```
-:::
+
+</Callout>

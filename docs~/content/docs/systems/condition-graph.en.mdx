@@ -108,9 +108,11 @@ ctx.Remove("Level");
 ctx.Clear();
 ```
 
-::: tip Reuse contexts
+<Callout type="info" title="Reuse contexts">
+
 Avoid allocating a new `ConditionContext` every frame. Keep one instance and update values with `Set`.
-:::
+
+</Callout>
 
 ## Use Cases
 

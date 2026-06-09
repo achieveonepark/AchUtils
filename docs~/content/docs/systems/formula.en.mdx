@@ -127,6 +127,8 @@ catch (Exception e)
 }
 ```
 
-::: warning Thread safety
+<Callout type="warn" title="Thread safety">
+
 `FormulaEvaluator` stores parser state in instance fields. Do not use the same evaluator instance concurrently from multiple threads. `FormulaAsset` caches one evaluator internally.
-:::
+
+</Callout>

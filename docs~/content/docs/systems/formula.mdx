@@ -131,6 +131,8 @@ catch (Exception e)
 }
 ```
 
-::: warning 스레드 안전성
+<Callout type="warn" title="스레드 안전성">
+
 `FormulaEvaluator`는 파서 상태를 인스턴스 필드로 보유하므로 동시에 여러 스레드에서 같은 인스턴스를 사용하지 마세요. `FormulaAsset`은 내부에 단일 evaluator를 캐싱합니다.
-:::
+
+</Callout>
