@@ -2,40 +2,40 @@
 title: "buff-debuff"
 ---
 
-﻿# Buff / Debuff System
+﻿# 버프 / 디버프 시스템
 
-A general-purpose buff pipeline for duration, stacks, ticks, and priority. Poison, stun, attack-speed boosts, and custom gameplay effects can be implemented by inheriting from `BuffEffect`.
+Duration, Stack, Tick, 우선순위를 설정하는 **범용 버프 관리 파이프라인**입니다. 독, 빙결, 공속 증가 등 어떤 효과든 `BuffEffect`를 상속해 추가합니다.
 
-## Structure
+## 구조
 
-```text
-BuffSystem (pure C# instance)
-  - Updates timers, ticks, and expiration for active buffs
+```
+BuffSystem (순수 C# 인스턴스)
+  — 등록된 버프의 타이머·틱·만료 자동 처리
 
 BuffDefinition (ScriptableObject)
-  - Name, icon, duration, tick, and stack settings
+  — 이름, 아이콘, Duration, Tick, Stack 설정
   [SerializeReference] List<BuffEffect>
 
 BuffInstance (runtime)
-  - Runtime state for a buff applied to a target
+  — 타겟에 적용된 버프의 실행 상태
 
 BuffEffect (abstract, [Serializable])
-  ├── DamageOverTimeEffect   - Damage on each tick
-  ├── StunEffect             - Disable movement or input
-  └── StatModifyEffect       - Add/remove stat modifiers automatically
+  ├── DamageOverTimeEffect   — 틱마다 피해
+  ├── StunEffect             — 이동 불가
+  └── StatModifyEffect       — 스탯 모디파이어 자동 추가/제거
 ```
 
-## Quick Start
+## 빠른 시작
 
-### 1. Create a BuffDefinition
+### 1. BuffDefinition 에셋 만들기
 
-**Create -> AchUtils/Buff/Buff Definition**
+**Create → AchUtils/Buff/Buff Definition**
 
-```text
+```
 BuffId          : "Poison"
-DisplayName     : "Poison"
+DisplayName     : "독"
 Duration        : 8
-TickInterval    : 1
+TickInterval    : 1          ← 1초마다 틱
 MaxStacks       : 3
 RefreshOnReapply: true
 
@@ -44,11 +44,11 @@ Effects:
         DamagePerTick: 15
 ```
 
-### 2. Create a BuffSystem Instance
+### 2. BuffSystem 인스턴스 만들기
 
-`BuffSystem` is not a `MonoBehaviour`. Create it from the owner that needs it, then call `Tick` every frame to update durations and ticks.
+`BuffSystem`은 `MonoBehaviour`가 아니므로 필요한 소유 객체에서 직접 생성합니다. 지속 시간과 틱 처리를 위해 매 프레임 `Tick`을 호출합니다.
 
-### 3. Apply and Remove Buffs
+### 3. 버프 적용 / 제거
 
 ```csharp
 using AchUtils.Buff;
@@ -63,12 +63,16 @@ void Update()
     buffSystem.Tick(Time.deltaTime);
 }
 
+// 적용
 buffSystem.Apply(poisonDef, target);
 
+// 제거
 buffSystem.Remove("Poison", target);
 
+// 확인
 bool hasPoisoned = buffSystem.Has("Poison", target);
 
+// 모두 제거
 buffSystem.RemoveAll(target);
 ```
 
@@ -89,15 +93,15 @@ event Action<BuffInstance> OnBuffApplied
 event Action<BuffInstance> OnBuffRemoved
 ```
 
-### BuffDefinition Inspector
+### BuffDefinition (Inspector)
 
-| Field | Description |
-|-------|-------------|
-| `BuffId` | Unique identifier |
-| `Duration` | Duration in seconds. `-1` means permanent |
-| `TickInterval` | Tick interval in seconds. `0` disables ticks |
-| `MaxStacks` | Maximum stack count |
-| `RefreshDurationOnReapply` | Whether reapply refreshes the duration |
+| 필드 | 설명 |
+|------|------|
+| `BuffId` | 유일 식별자 |
+| `Duration` | 지속 시간 (초). `-1` = 영구 |
+| `TickInterval` | 틱 간격 (초). `0` = 틱 없음 |
+| `MaxStacks` | 최대 중첩 수 |
+| `RefreshDurationOnReapply` | 재적용 시 Duration 초기화 여부 |
 
 ### BuffInstance
 
@@ -110,15 +114,15 @@ bool            IsPermanent
 bool            IsExpired
 ```
 
-## Built-In Effects
+## 내장 이펙트
 
 ### DamageOverTimeEffect
 
 ```csharp
-float DamagePerTick   // Damage per tick, multiplied by stacks
+float DamagePerTick   // 틱당 피해량 (스택에 비례)
 ```
 
-The target must implement `IDamageable`.
+타겟에 `IDamageable` 인터페이스가 필요합니다:
 
 ```csharp
 public class Player : MonoBehaviour, IDamageable
@@ -132,7 +136,7 @@ public class Player : MonoBehaviour, IDamageable
 
 ### StunEffect
 
-The target must implement `IStunnable`.
+타겟에 `IStunnable` 인터페이스가 필요합니다:
 
 ```csharp
 public class PlayerController : MonoBehaviour, IStunnable
@@ -144,23 +148,24 @@ public class PlayerController : MonoBehaviour, IStunnable
 
     void Update()
     {
-        if (_stunCount > 0) return;
-        // Movement...
+        if (_stunCount > 0) return; // 이동 불가
+        // 이동 처리 ...
     }
 }
 ```
 
 ### StatModifyEffect
 
-Adds and removes a stat modifier through `StatSheetComponent`.
+버프 적용/제거 시 `StatSheetComponent`의 스탯을 자동으로 추가/제거합니다.
 
-```text
+```csharp
+// Inspector에서 설정
 StatKey      : "Attack"
 ModifierType : PercentAdd
-Value        : 0.3
+Value        : 0.3          // 공격력 +30%
 ```
 
-## Custom Effects
+## 커스텀 이펙트 만들기
 
 ```csharp
 [Serializable]
@@ -176,33 +181,33 @@ public class FreezeEffect : BuffEffect
 
     public override void OnTick(BuffInstance buff, GameObject target)
     {
-        // Keep suppressing speed on each tick.
+        // 매 틱 속도 억제
     }
 }
 ```
 
-## Examples
+## 활용 예시
 
-```text
-Poison
+```
+독 (Poison)
   Duration: 8s, TickInterval: 1s, MaxStacks: 3
-  DamageOverTimeEffect: 15 x stacks
+  DamageOverTimeEffect: 15 × 스택
 
-Freeze
+빙결 (Freeze)
   Duration: 2s, MaxStacks: 1
   StunEffect
 
-Berserk
-  Duration: 10s
+광전사 (Berserk)
+  Duration: 10s, IsPermanent: false
   StatModifyEffect: Attack PercentAdd +0.5
 
-Curse
-  Duration: -1 (permanent), MaxStacks: 1
+저주 (Curse)
+  Duration: -1 (영구), MaxStacks: 1
   StatModifyEffect: Defense Flat -20
 ```
 
-<Callout type="info" title="Stat integration">
+<Callout type="info" title="스탯 모디파이어 연동">
 
-`StatModifyEffect` integrates with [Stat Modifier](/systems/stat-modifier). The target needs `StatSheetComponent`.
+`StatModifyEffect`는 [스탯 모디파이어](./stat-modifier) 시스템과 자동으로 연동됩니다. 타겟에 `StatSheetComponent`가 있어야 합니다.
 
 </Callout>

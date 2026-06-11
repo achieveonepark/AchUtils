@@ -1,0 +1,58 @@
+---
+title: はじめに
+description: AchUtils のインストールとセットアップ
+---
+
+## Package Manager でインストール（ローカル）
+
+Unity プロジェクトの `Packages/manifest.json` を開き、以下を追加します。
+
+```json
+{
+  "dependencies": {
+    "com.achieve.utils": "file:../Packages/AchUtils"
+  }
+}
+```
+
+または **Package Manager → Add package from disk** を選択して `Packages/AchUtils/package.json` を開きます。
+
+## Git URL でインストール
+
+```json
+{
+  "dependencies": {
+    "com.achieve.utils": "https://github.com/achieveonepark/AchUtils.git"
+  }
+}
+```
+
+## 確認
+
+インストール後、`Assembly Browser` で `AchUtils.Runtime` と `AchUtils.Extensions` が表示されれば完了です。
+
+```csharp
+using AchUtils.Tutorial;
+using AchUtils.Buff;
+using AchUtils;
+// ... 必要なシステムのみ using
+```
+
+## 対応環境
+
+| 項目 | 要件 |
+|------|-----------|
+| Unity | 2021.3 LTS 以降 |
+| .NET | Standard 2.1 |
+| プラットフォーム | iOS, Android, PC, WebGL, Console |
+| 外部パッケージ | `com.unity.ugui`, `com.unity.nuget.newtonsoft-json` |
+
+## サンプルのインポート
+
+Package Manager で AchUtils パッケージを選択し、**Samples → Basic Usage → Import** を押すと、インスタンスベースの使用例をプロジェクトに取り込めます。
+
+<Callout type="info" title="TextMeshPro">
+
+`DialogueStep` は既定で `UnityEngine.UI.Text` を使用します。TMP を使うには `DialogueStep.cs` の `Text` コンポーネントを `TextMeshProUGUI` に置き換えてください。
+
+</Callout>

@@ -1,0 +1,58 @@
+---
+title: 快速开始
+description: AchUtils 的安装与设置
+---
+
+## 通过 Package Manager 安装（本地）
+
+打开 Unity 项目的 `Packages/manifest.json`，添加以下内容。
+
+```json
+{
+  "dependencies": {
+    "com.achieve.utils": "file:../Packages/AchUtils"
+  }
+}
+```
+
+或选择 **Package Manager → Add package from disk**，打开 `Packages/AchUtils/package.json`。
+
+## 通过 Git URL 安装
+
+```json
+{
+  "dependencies": {
+    "com.achieve.utils": "https://github.com/achieveonepark/AchUtils.git"
+  }
+}
+```
+
+## 确认
+
+安装后，在 `Assembly Browser` 中能看到 `AchUtils.Runtime` 和 `AchUtils.Extensions` 即完成。
+
+```csharp
+using AchUtils.Tutorial;
+using AchUtils.Buff;
+using AchUtils;
+// ... 只 using 需要的系统
+```
+
+## 支持环境
+
+| 项目 | 要求 |
+|------|-----------|
+| Unity | 2021.3 LTS 及以上 |
+| .NET | Standard 2.1 |
+| 平台 | iOS, Android, PC, WebGL, Console |
+| 外部包 | `com.unity.ugui`, `com.unity.nuget.newtonsoft-json` |
+
+## 导入示例
+
+在 Package Manager 中选择 AchUtils 包，点击 **Samples → Basic Usage → Import**，即可把基于实例的使用示例导入到项目中。
+
+<Callout type="info" title="TextMeshPro">
+
+`DialogueStep` 默认使用 `UnityEngine.UI.Text`。若要使用 TMP，请在 `DialogueStep.cs` 中把 `Text` 组件替换为 `TextMeshProUGUI`。
+
+</Callout>

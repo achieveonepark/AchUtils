@@ -1,0 +1,31 @@
+---
+title: 简介
+description: 用于 Unity 游戏开发的 12 个可复用系统集合
+---
+
+**AchUtils** 是把 Unity 游戏开发中反复出现的系统，封装成独立实例的集合。
+
+教程、条件图、属性修饰器等 12 个系统各自独立工作，因此你可以只挑选需要的来用。
+
+## 特征
+
+- **独立实例** — 大多数运行时系统以纯 C# 实例创建，只有需要协程、Transform、Instantiate 的部分才使用组件
+- **基于 ScriptableObject** — 数据与逻辑分离，策划可直接修改
+- **`[SerializeReference]` 多态** — 在 Inspector 中直接添加节点、效果、步骤
+- **减少重复代码** — 除运行时系统外，还提供集合、Unity 对象、UI、字符串的扩展方法
+
+## 程序集信息
+
+| 项目 | 值 |
+|------|-----|
+| 包名 | `com.achieve.utils` |
+| 程序集 | `AchUtils.Runtime`, `AchUtils.Extensions` |
+| 根命名空间 | `AchUtils` |
+| 最低 Unity 版本 | **2021.3 LTS** |
+| 包依赖 | `com.unity.ugui`, `com.unity.nuget.newtonsoft-json` |
+
+## 后续步骤
+
+- [安装 →](./getting-started)
+- [扩展方法 →](./usage/extensions)
+- [第一个系统 — 教程 →](./usage/tutorial)
