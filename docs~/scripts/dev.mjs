@@ -4,12 +4,8 @@ import { fileURLToPath } from 'node:url';
 import { prepareDocsRoot } from './prepare.mjs';
 
 const docsDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const docsRoot = await prepareDocsRoot(docsDir, 'ko');
-const result = spawnSync('rspress', ['dev', docsRoot], {
-  cwd: docsDir,
-  env: { ...process.env, ACHUTILS_DOCS_LOCALE: 'ko' },
-  stdio: 'inherit',
-});
+await prepareDocsRoot(docsDir);
+const result = spawnSync('rspress', ['dev'], { cwd: docsDir, stdio: 'inherit' });
 
 if (result.error) {
   throw result.error;

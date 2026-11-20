@@ -18,29 +18,27 @@ const usagePages = [
   'camera-director',
 ];
 
-export async function prepareDocsRoot(docsDir, locale) {
-  const docsRoot = path.join(docsDir, '.build-content', locale);
+export async function prepareDocsRoot(docsDir) {
+  const docsRoot = path.join(docsDir, '.build-content');
   await rm(docsRoot, { recursive: true, force: true });
-  await cp(path.join(docsDir, 'content', locale), docsRoot, { recursive: true });
+  await cp(path.join(docsDir, 'content'), docsRoot, { recursive: true });
   await cp(path.join(docsDir, 'public'), path.join(docsRoot, 'public'), {
     recursive: true,
   });
 
-  if (locale === 'ja' || locale === 'zh') {
+  for (const locale of ['ja', 'zh']) {
     await cp(
-      path.join(docsDir, 'content', 'ko', 'usage'),
-      path.join(docsRoot, 'usage'),
+      path.join(docsRoot, 'ko', 'usage'),
+      path.join(docsRoot, locale, 'usage'),
       { recursive: true },
     );
     await cp(
-      path.join(docsDir, 'content', 'ko', 'changelog.mdx'),
-      path.join(docsRoot, 'changelog.mdx'),
+      path.join(docsRoot, 'ko', 'changelog.mdx'),
+      path.join(docsRoot, locale, 'changelog.mdx'),
     );
     await writeFile(
-      path.join(docsRoot, 'usage', '_meta.json'),
+      path.join(docsRoot, locale, 'usage', '_meta.json'),
       `${JSON.stringify(usagePages, null, 2)}\n`,
     );
   }
-
-  return path.relative(docsDir, docsRoot);
 }

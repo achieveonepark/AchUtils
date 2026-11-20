@@ -1,5 +1,4 @@
 import { defineConfig } from '@rspress/core';
-import path from 'node:path';
 
 const locales = {
   ko: { label: '한국어', description: 'Unity 게임 개발을 위한 재사용 가능한 시스템 모음' },
@@ -8,21 +7,15 @@ const locales = {
   zh: { label: '简体中文', description: '用于 Unity 游戏开发的可复用系统集合' },
 } as const;
 
-const locale = process.env.ACHUTILS_DOCS_LOCALE ?? 'ko';
-const localeInfo = locales[locale as keyof typeof locales];
-
-if (!localeInfo) {
-  throw new Error(`Unsupported docs locale: ${locale}`);
-}
-
-const base = `/AchUtils/${locale}/`;
-
 export default defineConfig({
-  outDir: path.resolve('out', locale),
-  base,
+  root: '.build-content',
+  outDir: 'out',
+  base: '/AchUtils/',
   title: 'AchUtils',
-  description: localeInfo.description,
-  lang: locale,
+  description: locales.ko.description,
+  lang: 'ko-KR',
+  locales: Object.entries(locales).map(([lang, info]) => ({ lang, ...info })),
+  route: { localeRedirect: 'never' },
   icon: '/icon.svg',
   logo: {
     light: '/logo.svg',
@@ -30,15 +23,6 @@ export default defineConfig({
   },
   themeConfig: {
     darkMode: true,
-    nav: [
-      {
-        text: localeInfo.label,
-        items: Object.entries(locales).map(([code, info]) => ({
-          text: info.label,
-          link: `/AchUtils/${code}/`,
-        })),
-      },
-    ],
     socialLinks: [
       {
         icon: 'github',
