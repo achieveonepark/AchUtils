@@ -1,9 +1,7 @@
-# Next.js / Fumadocs
+# Dependencies and generated output
 node_modules/
-.next/
 out/
-.source/
-next-env.d.ts
+.build-content/
 
 # OS / logs
 .DS_Store

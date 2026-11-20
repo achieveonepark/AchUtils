@@ -6,4 +6,5 @@ Documentation~/build/
 Documentation~/serve.*.log
 Documentation~/**/*.meta
 Documentation~.meta
+!docs~/
 dist/

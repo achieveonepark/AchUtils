@@ -1,0 +1,6 @@
+[
+  "index",
+  "getting-started",
+  { "type": "dir", "name": "usage", "label": "使い方" },
+  "changelog"
+]
